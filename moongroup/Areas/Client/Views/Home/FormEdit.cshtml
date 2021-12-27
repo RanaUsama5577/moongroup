@@ -177,7 +177,7 @@
     function AppendForms() {
         $.ajax({
             type: 'Get',
-            url: '@Url.Action("GetFormFields", "Home",new {Id = ViewBag.Id})',
+            url: '/Client/Home/GetClientSectionDetailWithAnswer?Id=@ViewBag.Id&SettingId=@ViewBag.SettingId',
             data: null,
             async: true,
             processData: false,
@@ -224,6 +224,7 @@
                     '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
                     '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
                 clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                clone.first().find('#fieldValue').attr('value',item.answer);
             }
             else if (item.fieldType == 1) {
                 var clone = $('#numberField').clone();
@@ -242,6 +243,7 @@
                     '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
                     '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
                 clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                clone.first().find('#fieldValue').attr('value', item.answer);
             }
             else if (item.fieldType == 2) {
                 var clone = $('#textareaField').clone();
@@ -260,6 +262,7 @@
                     '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
                     '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
                 clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                clone.first().find('#fieldValue').html(item.answer);
             }
             else if (item.fieldType == 3) {
                 var clone = $('#selectField').clone();
@@ -279,6 +282,7 @@
                     '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
                 var options = GetFormsFieldOptions(item.formFieldsOptions, 3, item.id);
                 clone.first().find('#fieldValue').html(options);
+                clone.first().find('#fieldValue').find('[value="' + item.answer + '"]').attr('selected', true);
             }
             else if (item.fieldType == 4) {
                 var clone = $('#checkboxField').clone();
@@ -298,6 +302,9 @@
                     '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
                 var options = GetFormsFieldOptions(item.formFieldsOptions, 4, item.id);
                 clone.first().find('#fieldValue').html(options);
+                item.multitpleAnswers.forEach(function (val) {
+                    clone.first().find('#fieldValue').find('[data-value="' + val + '"]').attr('checked', true);
+                })
             }
             else if (item.fieldType == 5) {
                 var clone = $('#radioField').clone();
@@ -317,6 +324,7 @@
                     '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
                 var options = GetFormsFieldOptions(item.formFieldsOptions, 5, item.id);
                 clone.first().find('#fieldValue').html(options);
+                clone.first().find('#fieldValue').find('[data-value="' + item.answer + '"]').attr('checked', true);
             }
             else if (item.fieldType == 6) {
                 var clone = $('#passwordField').clone();
@@ -335,6 +343,7 @@
                     '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
                     '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
                 clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                clone.first().find('#fieldValue').attr('value', item.answer);
             }
             else if (item.fieldType == 7) {
                 var clone = $('#GroupField').clone();
@@ -381,12 +390,56 @@
                     '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
                 clone2.first().find('#fieldValue').attr('placeholder', item.placeholder);
                 var options = GetFields(item.groupFields, 8, item.id);
+                console.log(item.multiFieldQuestionsAndAnswers);
+                var itemsThatAreSaved = [];
+                var countItems = 0;
+                item.multiFieldQuestionsAndAnswers.forEach(function (val) {
+                    countItems++;
+                    var savedForms = GetFields(val, 8, item.id);
+
+                    var cloneSection = $('#MultiField').clone();
+                    if (item.isRequired == true) {
+                        var span = "<span class='col-red'>*</span>";
+                        cloneSection.first().find('#FieldName').html(item.name + " " + span);
+                    }
+                    else {
+                        cloneSection.first().find('#FieldName').html(item.name);
+                    }
+                    cloneSection.find('#removeBtn').html(`<button onclick="RemoveIt(this)" class="btn btn-danger">Remove It</button>`);
+                    cloneSection.show();
+                    cloneSection.attr('id', '');
+                    cloneSection.first().find('#fieldValue').html(savedForms);
+                    cloneSection.attr('data-multisection', 'f-' + item.id);
+                    var timestamp = new Date().getTime().toString() + countItems;
+                    cloneSection.find('[data-fieldtype="5"]').each(function (i, obj1) {
+                        var count = 0;
+                        $(obj1).find('.custom-checkbox').each(function (i, obj2) {
+                            count++;
+                            $(obj2).find('[type="radio"]').attr('id', timestamp + "-" + count);
+                            $(obj2).find('[type="radio"]').attr('name', timestamp);
+                            $(obj2).find('label').attr('for', timestamp + "-" + count);
+                        });
+                    })
+
+                    cloneSection.find('[data-fieldtype="4"]').each(function (i, obj1) {
+                        var count = 0;
+                        $(obj1).find('.custom-checkbox').each(function (i, obj2) {
+                            count++;
+                            $(obj2).find('[type="checkbox"]').attr('id', timestamp + "-" + count);
+                            $(obj2).find('[type="checkbox"]').attr('name', timestamp);
+                            $(obj2).find('label').attr('for', timestamp + "-" + count);
+                        });
+                    })
+                    itemsThatAreSaved.push(cloneSection);
+                })
+                
                 clone2.first().find('#fieldValue').html(options);
                 clone2.attr('id', 'f-' + item.id);
+                $('#multiFormDiv').append(clone2);
                 var clone = $('#addMultiSec').clone();
                 clone.addClass(`f-${item.id}`);
                 clone.html(`<button onclick=AddMultiForm('f-${item.id}') class="btn btn-warning"><i class="fas fa-plus" style="margin-right: 13px;"></i>Add Dependents</button>`)
-                $('#multiFormDiv').append(clone2);
+                clone.append(itemsThatAreSaved);
             }
             else if (item.fieldType == 9) {
                 var clone = $('#dateField').clone();
@@ -405,6 +458,7 @@
                     '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
                     '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
                 clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                clone.first().find('#fieldValue').attr('value', item.answer);
             }
             else if (item.fieldType == 10) {
                 var clone = $('#maskField').clone();
@@ -423,6 +477,7 @@
                     '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
                     '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
                 clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                clone.first().find('#fieldValue').attr('value', item.answer);
             }
             else if (item.fieldType == 11) {
                 var clone = $('#dollarField').clone();
@@ -441,6 +496,7 @@
                     '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
                     '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
                 clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                clone.first().find('#fieldValue').attr('value', item.answer);
             }
             clone.show();
             if (num == 8) {
@@ -508,7 +564,8 @@
             var count = 0;
             $(obj1).find('.custom-checkbox').each(function (i, obj2) {
                 count++;
-                $(obj2).find('[type="radio"]').attr('id', timestamp + "-"+ count);
+                $(obj2).find('[type="radio"]').attr('id', timestamp + "-" + count);
+                $(obj2).find('[type="radio"]').attr('name', timestamp);
                 $(obj2).find('label').attr('for', timestamp + "-"+ count);
             });
         })
@@ -517,9 +574,22 @@
             var count = 0;
             $(obj1).find('.custom-checkbox').each(function (i, obj2) {
                 count++;
-                $(obj2).find('[type="radio"]').attr('id', timestamp + "-" + count);
+                $(obj2).find('[type="checkbox"]').attr('id', timestamp + "-" + count);
+                $(obj2).find('[type="checkbox"]').attr('name', timestamp);
                 $(obj2).find('label').attr('for', timestamp + "-" + count);
             });
+        })
+        cloneSection.find('[type="text"]').each(function (i, obj1) {
+            $(obj1).val("");
+        })
+        cloneSection.find('[type="number"]').each(function (i, obj1) {
+            $(obj1).val("");
+        })
+        cloneSection.find('[type="password"]').each(function (i, obj1) {
+            $(obj1).val("");
+        })
+        cloneSection.find('textarea').each(function (i, obj1) {
+            $(obj1).val("");
         })
         $('.' + Id).append(cloneSection);
     }
@@ -584,7 +654,7 @@
                 dataType: 'json',
                 type: 'POST',
                 async: true,
-                url: '/Client/Home/SaveFormSection',
+                url: '/Client/Home/SaveFormSection?Id=@ViewBag.Id&SettingId=@ViewBag.SettingId',
                 data: JSON.stringify(GetAllValues),
                 success: function (data) {
                     if (data.code == 200) {
@@ -637,7 +707,7 @@
     }
     function getDataFromRadioField(element, Id, sectionId, settingId, type) {
         var label = $(element).find('#FieldName').text().replaceAll("*", "").trim();
-        var value =  $(element).find('input[name="i-' + Id + '"]:checked').attr('data-value');
+        var value = $(element).find('input[type="radio"]:checked').attr('data-value');
         var data = {
             label: label,
             value: value,
@@ -653,7 +723,7 @@
     function getDataFromCheckboxField(element, Id, sectionId, settingId, type) {
         var label = $(element).find('#FieldName').text().replaceAll("*", "").trim();
         var list = [];
-        var values = $(element).find('input[name="i-' + Id + '"]:checked');
+        var values = $(element).find('input[type="checkbox"]:checked');
         values.each(function (i, obj) {
             list.push($(obj).attr('data-value'));
         })
@@ -709,6 +779,9 @@
             GetAllValues.push(data);
         })
         return GetAllValues;
+    }
+    function ShowSavedForms(forms) {
+
     }
 </script>
 <!--Ajax-->

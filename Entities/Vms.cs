@@ -290,6 +290,17 @@ namespace Entities
         public List<FormsSectionFieldsVms> SectionFields{ get; set; }
     }
 
+    public class FormsSectionsWithAnswerVms
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string IsRequired { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
+        public int ApplicationId { get; set; }
+        public List<FormsSectionFieldsWithAnswerVms> SectionFields { get; set; }
+    }
+
     public class ClientFormsSectionsVms
     {
         public int Id { get; set; }
@@ -310,6 +321,7 @@ namespace Entities
         public string Placeholder { get; set; }
         public string Name { get; set; }
         public string HelperText { get; set; }
+        public string Answer { get; set; }
         public int? Min { get; set; }
         public int? Max { get; set; }
         public List<FormsSectionFieldsVms> groupFields { get; set; }
@@ -321,9 +333,40 @@ namespace Entities
         public int Id { get; set; }
         public string Text { get; set; }
         public string Value { get; set; }
+        public string Answer { get; set; }
         public string HelpText { get; set; }
         public FormFieldOptionType Type { get; set; }
 
         public List<FormsSectionFieldsVms> SectionFields { get; set; }
+    }
+
+    public class FormsSectionFieldsWithAnswerVms
+    {
+        public int Id { get; set; }
+        public FormFeildType FieldType { get; set; }
+        public bool IsRequired { get; set; }
+        public bool IsMultiple { get; set; }
+        public string Placeholder { get; set; }
+        public string Name { get; set; }
+        public string HelperText { get; set; }
+        public string Answer { get; set; }
+        public List<string> MultitpleAnswers { get; set; }
+        public List<List<FormsSectionFieldsWithAnswerVms>> MultiFieldQuestionsAndAnswers { get; set; }
+        public int? Min { get; set; }
+        public int? Max { get; set; }
+        public List<FormsSectionFieldsWithAnswerVms> groupFields { get; set; }
+        public List<FormFieldsOptionsWithAnswerVms> formFieldsOptions { get; set; }
+    }
+
+    public class FormFieldsOptionsWithAnswerVms
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public string Value { get; set; }
+        public string Answer { get; set; }
+        public string HelpText { get; set; }
+        public FormFieldOptionType Type { get; set; }
+
+        public List<FormsSectionFieldsWithAnswerVms> SectionFields { get; set; }
     }
 }

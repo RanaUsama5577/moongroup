@@ -93,15 +93,21 @@ namespace moongroup.Areas.Client.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SaveFormSection([FromBody] List<SaveFormSection> vs)
+        public async Task<JsonResult> SaveFormSection([FromBody] List<SaveFormSection> vs, int Id, int SettingId)
         {
-            var saveFormInfo = admin.SaveFormInfo(vs);
+            var saveFormInfo = admin.SaveFormInfo(vs,Id,SettingId);
             return Json(saveFormInfo);
         }
 
-        public async Task<JsonResult> GetFormFields(int Id)
+        public async Task<JsonResult> GetClientSectionDetail(int Id,int SettingId)
         {
-            var fields = admin.GetSectionDetail(Id);
+            var fields = admin.GetClientSectionDetail(Id, SettingId);
+            return Json(fields);
+        }
+
+        public async Task<JsonResult> GetClientSectionDetailWithAnswer(int Id, int SettingId)
+        {
+            var fields = admin.GetClientSectionDetailWithAnswer(Id, SettingId);
             return Json(fields);
         }
 

@@ -25,7 +25,8 @@ namespace BLL.AdminService
         ResponseDto ShowApplicationsForCompany(string Id);
         List<ClientFormsSectionsVms> GetProjectSettingForm(int Id);
         List<FormsSectionsVms> ShowForms(int Id);
-        FormsSectionsVms GetSectionDetail(int Id);
+        FormsSectionsVms GetClientSectionDetail(int Id, int SettingId);
+        FormsSectionsWithAnswerVms GetClientSectionDetailWithAnswer(int Id, int SettingId);
         List<FormsSectionFieldsVms> GetFormsFields(int sectionId, int type);
         ResponseDto AddSection(AddSectionVms modal);
         ResponseDto DeleteSection(int Id);
@@ -40,7 +41,7 @@ namespace BLL.AdminService
         ResponseDto DeleteDocument(int Id);
         ResponseDto UploadProjectDocuments(UploadDocuments modal);
         ResponseDto AdminUploadProjectDocuments(UploadDocuments modal);
-        ResponseDto SaveFormInfo(List<SaveFormSection> vs);
+        ResponseDto SaveFormInfo(List<SaveFormSection> vs, int Id, int SettingId);
         Task<ResponseDto> Login(LoginViewModel LoginUser);
         SuperAdminDashboard SuperDashboardStats();
         AdminDashboard AdminDashboardStats(string Id);

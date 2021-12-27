@@ -567,37 +567,7 @@ namespace BLL.AdminService
             }
         }
 
-        FormsSectionsVms IAdminService.GetSectionDetail(int Id)
-        {
-            try
-            {
-                var p = db.FormSections.Find(Id);
-                if(p == null)
-                {
-                    return new FormsSectionsVms();
-                }
-                var applicationSetting = db.ApplicationSettings.Find(p.ApplicationSettingId);
-                if (applicationSetting == null)
-                {
-                    return new FormsSectionsVms();
-                }
-                FormsSectionsVms forms1 = new FormsSectionsVms
-                {
-                    CreatedAt = p.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
-                    Id = p.Id,
-                    Name = p.Name,
-                    IsRequired = p.IsRequired == true ? "Required" : "Not Required",
-                    UpdatedAt = p.UpdatedAt != null ? p.UpdatedAt.Value.ToString("dd-MMM-yyyy hh:mm:ss tt") : null,
-                    SectionFields = GetFormsFields(p.Id, 1),
-                    ApplicationId = applicationSetting.ApplicationId,
-                };
-                return forms1;
-            }
-            catch (Exception es)
-            {
-                throw new ValidationException(es.GetBaseException().Message);
-            }
-        }
+        
 
         public List<FormsSectionsVms> ShowForms(int Id)
         {
@@ -1220,29 +1190,25 @@ namespace BLL.AdminService
             }
         }
 
-        public ResponseDto SaveFormInfo(List<SaveFormSection> vs)
+        public ResponseDto SaveFormInfo(List<SaveFormSection> vs, int Id, int SettingId)
         {
             try
             {
-                int sectionId = 0;
-                int settingId = 0;
+                var checkPrev = db.ProjectFormSection.Where(p => p.ProjectSettingId == SettingId && p.SectionId == Id && p.Status == FormSectionStatus.Complete).FirstOrDefault();
+                if (checkPrev != null)
+                {
+                    var allAnswers = db.ProjectFormSubmissions.Where(p => p.ProjectSettingId == SettingId && p.SectionId == Id);
+                    db.ProjectFormSubmissions.RemoveRange(allAnswers.ToList());
+                    db.ProjectFormSection.Remove(checkPrev);
+                }
                 foreach (var i in vs)
                 {
-                    //var checkPrev = db.ProjectFormSubmissions.Where(p => p.ProjectSettingId == i.settingId && i.sectionId == i.sectionId && p.FieldId == i.fieldId).FirstOrDefault();
-                    //if(checkPrev != null)
-                    //{
-                    //    return JsonResponse2(400, "this section is already submitted plz add update form functionality", null);
-                    //}
                     if (i.fieldtype == 8)
                     {
-                        sectionId = i.sectionId;
-                        settingId = i.settingId;
                         GetFieldEightValues(i);
                     }
                     else
                     {
-                        sectionId = i.sectionId;
-                        settingId = i.settingId;
                         ProjectFormSubmissions projectFormSubmissions = new ProjectFormSubmissions
                         {
                             SectionId = i.sectionId,
@@ -1273,14 +1239,29 @@ namespace BLL.AdminService
                 }
                 ProjectFormSection projectFormSection = new ProjectFormSection
                 {
-                    SectionId = sectionId,
+                    SectionId = Id,
                     Status = FormSectionStatus.Complete,
-                    ProjectSettingId = settingId,
+                    ProjectSettingId = SettingId,
                     CreatedAt = currentTime,
                     UpdatedAt = currentTime,
                 };
                 db.ProjectFormSection.Add(projectFormSection);
                 db.SaveChanges();
+                var projectSettingFormCheck = db.ProjectsSettings.Find(SettingId);
+                var project = db.UserProjects.Find(projectSettingFormCheck.ProjectId);
+                var application = db.Applications.Find(project.Application);
+                var applicationSetting = db.ApplicationSettings.Find(application.Id);
+                var Allsections = db.FormSections.Where(p => p.ApplicationSettingId == applicationSetting.Id).Select(p=>p.Id).ToList();
+                var projectformSection = db.ProjectFormSection.Where(p => p.ProjectSettingId == projectSettingFormCheck.Id && p.Status == FormSectionStatus.Complete).Select(p=>p.SectionId).ToList();
+
+                var firstNotSecond = projectformSection.Except(Allsections).ToList();
+                var secondNotFirst = Allsections.Except(projectformSection).ToList();
+                if (!firstNotSecond.Any() && !secondNotFirst.Any()) 
+                {
+                    projectSettingFormCheck.Status = ProjectSettingStatus.Completed;
+                    db.Entry(projectSettingFormCheck).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
                 return JsonResponse2(200, "success", null);
             }
             catch(Exception ex)
@@ -1492,7 +1473,194 @@ namespace BLL.AdminService
                 throw new ValidationException(es.GetBaseException().Message);
             }
         }
+        FormsSectionsVms IAdminService.GetClientSectionDetail(int Id,int SettingId)
+        {
+            try
+            {
+                var p = db.FormSections.Find(Id);
+                if (p == null)
+                {
+                    return new FormsSectionsVms();
+                }
+                var applicationSetting = db.ApplicationSettings.Find(p.ApplicationSettingId);
+                if (applicationSetting == null)
+                {
+                    return new FormsSectionsVms();
+                }
+                FormsSectionsVms forms1 = new FormsSectionsVms
+                {
+                    CreatedAt = p.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                    Id = p.Id,
+                    Name = p.Name,
+                    IsRequired = p.IsRequired == true ? "Required" : "Not Required",
+                    UpdatedAt = p.UpdatedAt != null ? p.UpdatedAt.Value.ToString("dd-MMM-yyyy hh:mm:ss tt") : null,
+                    SectionFields = GetFormsFields(p.Id, 1),
+                    ApplicationId = applicationSetting.ApplicationId,
+                };
+                return forms1;
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
+        FormsSectionsWithAnswerVms IAdminService.GetClientSectionDetailWithAnswer(int Id, int SettingId)
+        {
+            try
+            {
+                var p = db.FormSections.Find(Id);
+                if (p == null)
+                {
+                    return new FormsSectionsWithAnswerVms();
+                }
+                var applicationSetting = db.ApplicationSettings.Find(p.ApplicationSettingId);
+                if (applicationSetting == null)
+                {
+                    return new FormsSectionsWithAnswerVms();
+                }
+                FormsSectionsWithAnswerVms forms1 = new FormsSectionsWithAnswerVms
+                {
+                    CreatedAt = p.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                    Id = p.Id,
+                    Name = p.Name,
+                    IsRequired = p.IsRequired == true ? "Required" : "Not Required",
+                    UpdatedAt = p.UpdatedAt != null ? p.UpdatedAt.Value.ToString("dd-MMM-yyyy hh:mm:ss tt") : null,
+                    SectionFields = GetFormsFieldsWithAnswers(p.Id, 1, SettingId,0),
+                    ApplicationId = applicationSetting.ApplicationId,
+                };
+                return forms1;
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
+        public List<FormsSectionFieldsWithAnswerVms> GetFormsFieldsWithAnswers(int sectionId, int type,int SettingId,int level)
+        {
+            List<FormsSectionFieldsWithAnswerVms> sectionFieldsVms = new List<FormsSectionFieldsWithAnswerVms>();
+            var fields = db.FormFields.AsQueryable();
+            if (type == 1)
+            {
+                fields = fields.Where(p => p.FormSectionId == sectionId).OrderBy(p => p.Order);
+            }
+            else
+            {
+                fields = fields.Where(p => p.FormFieldId == sectionId).OrderBy(p => p.Order);
+            }
+            foreach (var f in fields)
+            {
+                List<string> checkBoxAnswers = new List<string>();
+                List<List<FormsSectionFieldsWithAnswerVms>> vs = new List<List<FormsSectionFieldsWithAnswerVms>>();
+                var answerValue = "";
+                if(f.Type == FormFeildType.Checkbox)
+                {
+                    if (level == 0)
+                    {
+                        var answer = db.ProjectFormSubmissions.Where(p => p.FieldId == f.Id && p.ProjectSettingId == SettingId).FirstOrDefault();
+                        if (answer != null)
+                        {
+                            checkBoxAnswers = db.ProjectFormSubmissionValues.Where(p => p.SubmissionId == answer.Id).Select(p => p.Value).ToList();
+                        }
+                    }
+                    else
+                    {
+                        var answer = db.ProjectFormSubmissions.Where(p => p.FieldId == f.Id && p.ProjectSettingId == SettingId && p.SubmissionId == level).FirstOrDefault();
+                        if (answer != null)
+                        {
+                            checkBoxAnswers = db.ProjectFormSubmissionValues.Where(p => p.SubmissionId == answer.Id).Select(p => p.Value).ToList();
+                        }
+                    }
+                }
+                else if (f.Type == FormFeildType.IsMultipleSection)
+                {
+                    var answer = db.ProjectFormSubmissions.Where(p => p.FieldId == f.Id && p.ProjectSettingId == SettingId);
+                    foreach(var i in answer)
+                    {
+                        vs.Add(GetFormsFieldsWithAnswers(f.Id, 2, SettingId,i.Id));
+                    }
+                }
+                else
+                {
+                    if(level == 0)
+                    {
+                        var answer = db.ProjectFormSubmissions.Where(p => p.FieldId == f.Id && p.ProjectSettingId == SettingId).FirstOrDefault();
+                        answerValue = answer != null ? answer.Value : "";
+                    }
+                    else
+                    {
+                        var answer = db.ProjectFormSubmissions.Where(p => p.FieldId == f.Id && p.ProjectSettingId == SettingId && p.SubmissionId == level).FirstOrDefault();
+                        answerValue = answer != null ? answer.Value : "";
+                    }
+                }
 
-        
+                FormsSectionFieldsWithAnswerVms formsSection = new FormsSectionFieldsWithAnswerVms
+                {
+                    FieldType = f.Type,
+                    HelperText = f.HelperText,
+                    Id = f.Id,
+                    IsMultiple = f.IsMultiple,
+                    IsRequired = f.IsRequired,
+                    Max = f.Max,
+                    Min = f.Min,
+                    MultitpleAnswers = checkBoxAnswers,
+                    Answer = answerValue,
+                    Name = f.Name,
+                    MultiFieldQuestionsAndAnswers = vs,
+                    Placeholder = f.Placeholder,
+                    groupFields = GetFormsFieldsWithAnswers(f.Id, 2, SettingId,0),
+                    formFieldsOptions = GetFormsFieldOptionsWithAnswers(f.Id),
+                };
+                sectionFieldsVms.Add(formsSection);
+            }
+            return sectionFieldsVms;
+        }
+        public List<FormFieldsOptionsWithAnswerVms> GetFormsFieldOptionsWithAnswers(int feildId)
+        {
+            var count = 0;
+            List<FormFieldsOptionsWithAnswerVms> formFieldsOptionsVms = new List<FormFieldsOptionsWithAnswerVms>();
+            var fields = db.FormFieldsOptions.Where(o => o.FormsFieldId == feildId).OrderBy(p => p.Order);
+            foreach (var of in fields)
+            {
+                FormFieldsOptionsWithAnswerVms formsSection = new FormFieldsOptionsWithAnswerVms
+                {
+                    HelpText = of.HelpText,
+                    Id = of.Id,
+                    Type = of.Type,
+                    Text = of.Text,
+                    Value = of.Value,
+                    SectionFields = of.Type == FormFieldOptionType.Expandable ? GetFormsFieldOptionsBindFieldsAnswers(of.Id) : null,
+                };
+                formFieldsOptionsVms.Add(formsSection);
+            }
+            return formFieldsOptionsVms;
+        }
+        public List<FormsSectionFieldsWithAnswerVms> GetFormsFieldOptionsBindFieldsAnswers(int optionId)
+        {
+            List<FormsSectionFieldsWithAnswerVms> sectionFieldsVms = new List<FormsSectionFieldsWithAnswerVms>();
+            var binders = db.FormFieldOptionBinders.Where(o => o.FormsFieldOptionId == optionId);
+            if (binders.Count() > 0)
+            {
+                var Ids = binders.Select(p => p.FormsFieldId);
+                var fields = db.FormFields.Where(p => Ids.Contains(p.Id));
+                foreach (var f in fields)
+                {
+                    FormsSectionFieldsWithAnswerVms formsSection = new FormsSectionFieldsWithAnswerVms
+                    {
+                        FieldType = f.Type,
+                        HelperText = f.HelperText,
+                        Id = f.Id,
+                        IsMultiple = f.IsMultiple,
+                        IsRequired = f.IsRequired,
+                        Max = f.Max,
+                        Min = f.Min,
+                        Name = f.Name,
+                        Placeholder = f.Placeholder,
+                        formFieldsOptions = GetFormsFieldOptionsWithAnswers(f.Id),
+                    };
+                    sectionFieldsVms.Add(formsSection);
+                }
+            }
+            return sectionFieldsVms;
+        }
     }
 }
