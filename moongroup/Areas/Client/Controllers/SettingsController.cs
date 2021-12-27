@@ -88,12 +88,13 @@ namespace moongroup.Areas.Client.Controllers
 
         public IActionResult GetProfile()
         {
-            var user = admin.getLoginUser(userManager.GetUserId(HttpContext.User));
+            var user = admin.getLoginUser2(userManager.GetUserId(HttpContext.User));
             ProfileDtos profile = new ProfileDtos
             {
                 FullName = user.FullName,
                 Email = user.Email,
                 ProfileImageUrl = user.ProfileImageUrl,
+                companyImage = user.companyImage,
             };
             return JsonResponse(200, "success", profile);
         }

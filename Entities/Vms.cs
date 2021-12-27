@@ -179,6 +179,7 @@ namespace Entities
         public string FullName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string companyImage { get; set; }
         public bool PackagePurchased { get; set; }
         public string ExpiryDate { get; set; }
         public UserType Role { get; set; }

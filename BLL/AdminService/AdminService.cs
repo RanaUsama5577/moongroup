@@ -265,6 +265,24 @@ namespace BLL.AdminService
             }
             return null;
         }
+
+        public ProfileDtos getLoginUser2(string Id)
+        {
+            if (Id != null)
+            {
+                var LoginUser = db.Users.Find(Id);
+                var company = db.Users.Find(LoginUser.CompanyId);
+                ProfileDtos profileDtos = new ProfileDtos
+                {
+                    FullName = LoginUser.FullName,
+                    Email = LoginUser.Email,
+                    ProfileImageUrl = LoginUser.ProfileImageUrl,
+                    companyImage = company.ProfileImageUrl,
+                };
+                return profileDtos;
+            }
+            return null;
+        }
         async Task<ResponseDto> IAdminService.Login(LoginViewModel LoginUser)
         {
             try

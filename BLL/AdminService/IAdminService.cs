@@ -47,6 +47,7 @@ namespace BLL.AdminService
         AdminDashboard AdminDashboardStats(string Id);
 
         ApplicationUser getLoginUser(string Id);
+        ProfileDtos getLoginUser2(string Id);
         ApplicationUser UpdateProfileImage(string ImageUrl, string Id);
         ApplicationUser UpdateProfile(string Name, string Id);
         Task<ResponseDto> ChangePassword(UpdatePasswordVms model, string Id);
