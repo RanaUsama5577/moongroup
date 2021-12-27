@@ -1,0 +1,109 @@
+﻿@{
+    Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-body" style="padding: 58px 28px;">
+    <section>
+        <div class="row" style="justify-content:center;">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Change Password</h3>
+                    </div>
+                    <form id="editPasswordForm">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Current Password</label>
+                                        <input type="password" class="form-control" id="current_password" name="current_password" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>New Password</label>
+                                        <input type="password" class="form-control" id="current_password" name="new_password" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Confirm Password</label>
+                                        <input type="password" class="form-control" id="current_password" name="confirm_password" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer" style="text-align:end;">
+                            <a href="@Url.Action("Index","Home")" class="btn btn-secondary">Close</a>
+                            <button type="submit" class="btn btn-primary">Change</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-10" style="display:none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Change Language</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Select Language</label>
+                                    <select class="form-control">
+                                        <option value="1">English</option>
+                                        <option value="2">Spanish</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer" style="text-align:end;">
+                        <a class="btn btn-secondary">Close</a>
+                        <button type="submit" class="btn btn-primary">Change</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    $('#editPasswordForm').submit(function (e) {
+        e.preventDefault();
+        var form = new FormData(document.getElementById('editPasswordForm'));
+        var response = getResponseFromUrl('POST', '/Client/Home/ChangePassword', form, true);
+        if (response.code == 200) {
+            TimerSweet("Password Updated!", 'Passsword is successfully updated', "success", 2000);
+            GetProfile();
+            document.getElementById('editPasswordForm').reset();
+        }
+        else {
+            console.log(response);
+            sweetMessage("Error!", response.shortMessage + "<br>" + response.result, "error");
+        }
+    })
+</script>
+
+
+<!--Ajax-->
+<script>
+    var getResponseFromUrl = function (requestType, requestUrl, requestData, async) {
+        var response;
+        $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                response = data;
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+        return response;
+    }
+</script>

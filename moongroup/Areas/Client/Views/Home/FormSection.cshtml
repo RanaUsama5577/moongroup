@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Entities.ClientFormsSectionsVms>
+@{
+    Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-body" style="padding: 58px 28px;">
+    <section>
+        <div class="row" style="justify-content:center;">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 style="font-size: 26px;font-weight: 700;">Edit Interview</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Fill out each section below to change to a green check and then you can submit.</p>
+                        @foreach (var i in Model)
+                        {
+                    <div class="forms-btn" onclick="window.location.href='@Url.Action("FormEdit","Home",new {Id = i.Id , SettingId= ViewBag.SettingId})'">
+                        @if (i.IsRequired == "Required")
+                        {
+                            <span>@i.Name <span style="color: #fe2b48; font-size: 19px;">*</span></span>
+                        }
+                        else
+                        {
+                            <span>@i.Name </span>
+                        }
+                        @if (i.Status == Entities.Enum.FormSectionStatus.Complete)
+                        {
+                            <i class="fas fa-check-circle" style="color: #1dda46; font-size: 19px;"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-exclamation-circle" style="color: #cdc12f; font-size: 19px;"></i>
+                        }
+                    </div>
+                        }
+                    </div>
+                    <div class="card-footer" style="text-align:end">
+                        <a href="@Url.Action("Index","Home")" class="btn btn-secondary">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,269 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html class="loading semi-dark-layout" lang="en" data-textdirection="ltr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <title>Super Admin</title>
+    <link rel="apple-touch-icon" href="/">
+    <link rel="shortcut icon" type="image/x-icon" href="/mon.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/extensions/toastr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- END: Vendor CSS-->
+    <!-- BEGIN: Theme CSS-->
+
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/dark-layout.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/bordered-layout.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/semi-dark-layout.min.css">
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/core/menu/menu-types/vertical-menu.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/extensions/ext-component-toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/rowGroup.bootstrap4.min.css">
+    <link href="~/app-assets/fixed columns/fixedcolumns.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/bootstrap-extended.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/colors.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/components.min.css">
+    <!-- END: Page CSS-->
+    <!-- BEGIN: Custom CSS-->
+
+    <link href="~/app-assets/css/style.css" rel="stylesheet" />
+    <link href="~/app-assets/css/custom.css" rel="stylesheet" />
+    <!-- END: Custom CSS-->
+    <!-- BEGIN: Vendor JS-->
+    <script src="/app-assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+    @*<style>
+            .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .modern-nav-toggle, .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .navbar-header .brand-text, .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu-content .sidebar-user .sidebar-user-details {
+                display: block;
+            }
+
+            .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .modern-nav-toggle, .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .navbar-header .brand-text, .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu:not(.expanded) .navigation-header span {
+                display: none;
+            }
+
+            .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .modern-nav-toggle, .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .navbar-header .brand-text, .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu:not(.expanded) .navbar-header .navbar-nav .nav-item .navbar-brand .brand-logo .mini-logo{
+                display: block!important;
+            }
+
+            .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .modern-nav-toggle, .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .navbar-header .brand-text, .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu:not(.expanded) .navbar-header .navbar-nav .nav-item .navbar-brand .brand-logo .logo-large {
+                display: none;
+            }
+
+            .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .modern-nav-toggle, .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .navbar-header .brand-text, .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .navbar-header .navbar-nav .nav-item .navbar-brand .brand-logo .logo-large {
+                display: block;
+            }
+
+            .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .modern-nav-toggle, .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu .navbar-header .brand-text, .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu-content:not(.expanded) .sidebar-user .sidebar-user-details {
+                display: none;
+            }
+        </style>*@
+</head>
+<!-- END: Head-->
+<!-- BEGIN: Body-->
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+    <!-- BEGIN: Header-->
+    <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow">
+        <div class="navbar-container d-flex content">
+            <div class="bookmark-wrapper d-flex align-items-center">
+                <ul class="nav navbar-nav d-xl-none">
+                    <li class="nav-item"><a class="nav-link menu-toggle" href="javascript:void(0);"><i class="ficon" data-feather="menu"></i></a></li>
+                </ul>
+            </div>
+            <ul class="nav navbar-nav align-items-center ml-auto" style="margin-left: auto;">
+                <li class="nav-item dropdown dropdown-notification mr-25 " style="display:none;">
+                    <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown" aria-expanded="true">
+                        <i class="ficon" data-feather="bell"></i>
+                        <span id="badge_notify" class="badge badge-pill badge-danger badge-up" style="display: none;">5</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right ">
+                        <li class="dropdown-menu-header">
+                            <div class="dropdown-header d-flex">
+                                <h4 class="notification-title mb-0 mr-auto">Notifications</h4>
+                                <div id="recent_notify" class="badge badge-pill badge-light-primary" style="display: none;"></div>
+                            </div>
+                        </li>
+                        <li class="scrollable-container media-list NotificationList ps"><div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></li>
+                        <li class="dropdown-menu-footer"><a onclick="readAll()" class="btn btn-primary btn-block waves-effect waves-float waves-light" href="javascript:void(0)">Read all notifications</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown dropdown-user">
+                    <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="user-nav d-sm-flex d-none">
+                            <span id="nav-user-name" class="font-weight-bolder ">Alicia</span>
+                            <span class="user-status">Super Admin</span>
+                        </div>
+                        <span class="avatar">
+                            <img class="round imageUrl" src="/default-user-icon-4.jpg" alt="avatar" height="40" width="40">
+                            <span class="avatar-status-online"></span>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
+                        <a class="dropdown-item" href="@Url.Action("MyProfile","Dashboard")"><i class="mr-50" data-feather="user"></i> Profile</a>
+                        <a class="dropdown-item" href="@Url.Action("Logout","Account")"><i class="mr-50" data-feather="power"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- END: Header-->
+    <!-- BEGIN: Main Menu-->
+    <div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
+        <div class="navbar-header">
+            <ul class="nav navbar-nav flex-row">
+                <li class="nav-item mr-auto ml-auto" style="margin-left: auto;margin-right:auto;">
+                    <a class="navbar-brand" href="@Url.Action("Index","Dashboard")">
+                        <span class="brand-logo">
+                            <img class="large_logo" style="max-width: 44px; margin-left: 26px;" src="/mon.jpg" />
+                            <img class="mini_logo" style="width:40px;" src="/mon.jpg" />
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
+            </ul>
+        </div>
+        <div class="shadow-bottom"></div>
+        <div class="main-menu-content">
+            <div class="sidebar-user" style="display: inline-block;width: 100%;padding: 10px;text-align: center;">
+                <div class="sidebar-user-picture">
+                    <img alt="image" class="imageUrl" src="/default-user-icon-4.jpg" style="width: 60px;border-radius: 20%;">
+                </div>
+                <div class="sidebar-user-details">
+                    <div class="user-name">Alicia</div>
+                    <div class="user-role">Super Admin</div>
+                </div>
+            </div>
+            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+                <li style="margin-top: 1px;" class="navigation-header">
+                    <span data-i18n="Home">Home</span><i data-feather="more-horizontal"></i>
+                </li>
+                <li id="dashboard" class="nav-item ">
+                    <a class="d-flex align-items-center" href="@Url.Action("Index","Dashboard")"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboards</span></a>
+                </li>
+                <li id="users" class="nav-item">
+                    <a class="d-flex align-items-center" href="@Url.Action("Index","Users")"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Users">Clients</span></a>
+                </li>
+                <li class="navigation-header">
+                    <span data-i18n="Setting">Menu</span><i data-feather="more-horizontal"></i>
+                </li>
+                <li id="interview" class="nav-item">
+                    <a class="d-flex align-items-center" href="@Url.Action("Index","ConfigureInterview")"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Users">Application Settings</span></a>
+                </li>
+                <li class="navigation-header">
+                    <span data-i18n="Setting">Setting</span><i data-feather="more-horizontal"></i>
+                </li>
+                <li id="myProfile" class=" nav-item">
+                    <a class="d-flex align-items-center" href="@Url.Action("MyProfile","Dashboard")">
+                        <i data-feather="user"></i>
+                        <span class="menu-title text-truncate" data-i18n="My Profile">My Profile</span>
+                    </a>
+                </li>
+                <li id="myProfile" class=" nav-item">
+                    <a class="d-flex align-items-center" href="@Url.Action("Logout","Account")">
+                        <i data-feather="log-out"></i>
+                        <span class="menu-title text-truncate" data-i18n="Logout">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- END: Main Menu-->
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+    </div>
+    <!-- END: Content-->
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+    <!-- BEGIN: Theme JS-->
+    <script src="/app-assets/js/core/app-menu.min.js"></script>
+    <script src="/app-assets/js/core/app.min.js"></script>
+    <script src="/app-assets/js/scripts/customizer.min.js"></script>
+    <!-- END: Theme JS-->
+    <!-- BEGIN: Page JS-->
+    <script src="~/app-assets/js/custom.js"></script>
+    <script src="/app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
+    <script src="/app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
+    <script src="/app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
+    <script src="/app-assets/vendors/js/tables/datatable/responsive.bootstrap4.js"></script>
+    <script src="/app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js"></script>
+    <script src="/app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
+    <script src="/app-assets/vendors/js/tables/datatable/jszip.min.js"></script>
+    <script src="/app-assets/vendors/js/tables/datatable/pdfmake.min.js"></script>
+    <script src="/app-assets/vendors/js/tables/datatable/vfs_fonts.js"></script>
+    <script src="/app-assets/vendors/js/tables/datatable/buttons.html5.min.js"></script>
+    <script src="/app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
+    <script src="/app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js"></script>
+    <script src="~/app-assets/fixed columns/fixedcolumns.js"></script>
+    <!-- END: Page JS-->
+    <script>
+        $(window).on('load', function () {
+            if (feather) {
+                feather.replace({ width: 14, height: 14 });
+            }
+        })
+    </script>
+
+    <script>
+        $(function () {
+            GetProfile();
+        })
+        function GetProfile() {
+            var response = getLayoutResponeFromUrl('GET', '/SuperAdmin/Dashboard/GetProfile');
+            if (response.code == 200) {
+                var data = response.result;
+                $('.user-name').html(data.fullName);
+                $('#nav-user-name').html("Hello " + data.fullName);
+                $('#UserName').val(data.fullName);
+                $('#UserName2').html(data.fullName);
+
+                $('.imageUrl').attr('src', data.profileImageUrl);
+                $('#EmailUserId').html(data.email);
+            }
+            else {
+                console.log("Error!", response.shortMessage);
+            }
+        }
+    </script>
+    <!--Ajax-->
+    <script>
+        var getLayoutResponeFromUrl = function (requestType, requestUrl, requestData) {
+            var response;
+            $.ajax({
+                type: requestType,
+                url: requestUrl,
+                data: requestData,
+                data: requestData,
+                async: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    response = data;
+                    console.log(data);
+                },
+                error: function (error) {
+                    return error;
+                },
+            });
+            return response;
+        }
+    </script>
+</body>
+<!-- END: Body-->
+</html>

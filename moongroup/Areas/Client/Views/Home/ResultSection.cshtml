@@ -1,0 +1,62 @@
+﻿@model Entities.DocumentsVms
+@{
+    Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-body" style="padding: 58px 28px;">
+    <section>
+        <div class="row" style="justify-content:center;">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 style="font-size: 26px;font-weight: 700;">@Model.ProjectSettingName</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="companyTable" class="table client-table">
+                                <thead style="">
+                                    <tr style="">
+                                        <th>Name</th>
+                                        <th>File Size</th>
+                                        <th>Last Modified</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var i in Model.ListofDocumentsVms.Where(p => p.Type == Entities.Enum.DocumentType.AddedByAdmin))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="fw-bold" style="font-weight:700;">@i.Name</span>
+                                            </td>
+                                            <td>@i.FileSize</td>
+
+                                            <td>@i.CreatedAt</td>
+                                            <td>
+                                                <a href="@i.DocumentUrl" class="btn" style="color: #0d5dee;padding: 4px 1px;" download>
+                                                    <i class="fas fa-download"></i>
+                                                </a>
+                                                <a href="@i.DocumentUrl" target="_blank" class="btn" style="color: #0d5dee;padding: 4px 1px;">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer" style="text-align:end">
+                        <a href="@Url.Action("Index","Home")" class="btn btn-secondary">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    $(function () {
+        $('#companyTable').dataTable();
+    })
+</script>

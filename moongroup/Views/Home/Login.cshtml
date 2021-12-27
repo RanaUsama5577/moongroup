@@ -1,0 +1,105 @@
+﻿@{
+    Layout = null;
+}
+@model Entities.LoginViewModel
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <!-- End Google Tag Manager -->
+    <title>Moon Group - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <!-- External CSS libraries -->
+    <link type="text/css" rel="stylesheet" href="/login-assets/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="/login-assets/fonts/font-awesome/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/login-assets/fonts/flaticon/font/flaticon.css">
+
+    <!-- Favicon icon -->
+    <link rel="shortcut icon" href="~/mon.jpg" type="image/x-icon">
+
+    <!-- Google fonts -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800%7CPoppins:400,500,700,800,900%7CRoboto:100,300,400,400i,500,700">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+
+    <!-- Custom Stylesheet -->
+    <link type="text/css" rel="stylesheet" href="/login-assets/css/style.css">
+    <link rel="stylesheet" type="text/css" id="style_sheet" href="/login-assets/css/skins/default.css">
+
+</head>
+<body id="top">
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="page_loader"></div>
+
+    <!-- Login 23 start -->
+    <div class="login-23 tab-box">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-5 col-md-12 col-pad-0 bg-img none-992">
+
+                    <div class="informeson">
+                        <div class="btn-section">
+                            <a href="@Url.Action("Login","Home")" class="link-btn active">Login</a>
+                            <a href="/Invite/themoongroup" class="link-btn ">Register</a>
+                        </div>
+                        <h3>Welcome to our secure portal</h3>
+                        <p>
+                            Ours is an online platform used to easily and securely share information with your tax preparer.
+                        </p>
+                        <p>
+                            You're one step away from working with your tax preparer entirely online, but first you need to set a password for your account. This will allow you to get back to your account later by logging in to our portal with your email address.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-12">
+                    
+                </div>
+                <div class="col-lg-7 col-md-12 col-pad-0 form-section">
+                    <div class="login-inner-form">
+                        <div class="details">
+                            <a href="login-23.html">
+                                <img src="~/mon.jpg" />
+                            </a>
+                            <h3>Sign Into Your Account</h3>
+                            @using (Html.BeginForm("Login", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, true, new { @class = "form-horizontal login-form", role = "form", id = "Form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group form-box">
+                                    <label>
+                                        Email
+                                    </label>
+                                    <input type="email" name="Email" class="form-control" placeholder="Email Address" aria-label="Email Address">
+                                </div>
+                                <div class="form-group form-box">
+                                    <label>
+                                        Password
+                                    </label>
+                                    <input type="password" name="Password" class="form-control" autocomplete="off" placeholder="Password" aria-label="Password">
+                                </div>
+                                <div class="form-group form-box checkbox clearfix">
+                                    <div class="form-check checkbox-theme">
+                                        <input class="form-check-input" type="checkbox" value="" id="rememberMe" name="RememberMe">
+                                        <label class="form-check-label form-optional" for="rememberMe">
+                                            Remember me
+                                        </label>
+                                    </div>
+                                    <a href="@Url.Action("ForgotPassword","Home")">Forgot Password</a>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn-md btn-theme w-100">Login</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Login 3 end -->
+    <!-- External JS libraries -->
+    <script src="/login-assets/js/jquery.min.js"></script>
+    <script src="/login-assets/js/popper.min.js"></script>
+    <script src="/login-assets/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

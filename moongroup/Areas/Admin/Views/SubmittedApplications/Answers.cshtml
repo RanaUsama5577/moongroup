@@ -1,0 +1,91 @@
+﻿@model Entities.AnswerApplicationInfoVms
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_Admin.cshtml";
+}
+<!-- Horizontal Wizard -->
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">Answers</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("Index","Dashboard")">Home</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-body">
+    <!-- Basic table -->
+    <section id="accordion-with-shadow">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="accordionWrapa10" role="tablist" aria-multiselectable="true">
+                    <div class="card collapse-icon">
+                        <div class="card-header">
+                            <h6 style="display:inline-block;font-size:13px;" class="mb-0 card-title">@Model.ApplicationName (@Model.Year) ( @Model.UserEmail)</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="collapse-margin">
+                                @foreach (var i in Model.AnswerSectionVms)
+                                {
+                                    <div class="card" style="width:100%">
+                                        <div id="heading11" class="card-header" data-toggle="collapse" role="button" data-target="#accordion-@i.sectionId" aria-expanded="false" aria-controls="accordion10">
+                                            <span class="lead collapse-title" style="width:100%">
+                                                @i.sectionName
+                                                
+                                            </span>
+                                        </div>
+                                        <div id="accordion-@i.sectionId" role="tabpanel" data-parent="#accordionWrapa10" aria-labelledby="heading11" class="collapse">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    @foreach (var a in i.fieldValues)
+                                                    {
+                                                        if (a.fieldtype == 4)
+                                                        {
+                                                            <div class="col-md-6">
+                                                                <label class="form-label" for="vertical-username" style="width:100%;font-weight:800;">
+                                                                    @a.label
+                                                                </label>
+                                                                @foreach (var q in a.values)
+                                                                {
+                                                                    <p>@q</p>
+                                                                }
+                                                            </div>
+                                                        }
+                                                        else if(a.fieldtype == 8)
+                                                        {
+                                                            
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="col-md-6">
+                                                                <label class="form-label" for="vertical-username" style="width: 100%; font-weight: 800;">
+                                                                    @a.label
+                                                                </label>
+                                                                <p>@a.value</p>
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    $(function () {
+        $('#apps').addClass('active');
+    })
+</script>

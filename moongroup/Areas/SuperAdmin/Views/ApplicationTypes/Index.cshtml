@@ -1,0 +1,134 @@
+﻿@{
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout_Admin.cshtml";
+}
+<!-- Horizontal Wizard -->
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">Application Types</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("Index","Dashboard")">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="@Url.Action("Index","Categories")">View All Application Types</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-body">
+    <!-- Basic table -->
+    <section id="basic-datatable">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header border-bottom p-1">
+                        <div class="head-label">
+                            <h6 class="mb-0">Application Types</h6>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked="">
+                            <label class="btn btn-outline-primary waves-effect" for="btnradio1">All</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                            <label class="btn btn-outline-primary waves-effect" for="btnradio2">Active</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                            <label class="btn btn-outline-primary waves-effect" for="btnradio3">Blocked</label>
+                        </div>
+                        <div class="dt-buttons d-inline-flex">
+                            <button class="dt-button create-new btn btn-primary" tabindex="0" type="button" data-toggle="modal" data-target="#modals-slide-in">
+                                <span>Add New Record</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="table-1" class="datatables-basic table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Registered At</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dataTable">
+                                    <tr data-row="1" class="">
+                                        <td>
+                                            <h6 class="mb-0 font-13 pdt10 text-center">TMG Client Application</h6>
+                                        </td>
+                                        
+                                        <td>9-Jun-2021</td>
+                                        <td>
+                                            <span class="badge rounded-pill  badge-light-success">Active</span>
+                                        </td>
+                                        <td class="action">
+                                        </td>
+                                    </tr>
+                                    <tr data-row="1" class="">
+                                        <td>
+                                            <h6 class="mb-0 font-13 pdt10 text-center">TMG Client Application 2</h6>
+                                        </td>
+                                        
+                                        <td>9-Jun-2021</td>
+                                        <td>
+                                            <span class="badge rounded-pill  badge-light-success">Active</span>
+                                        </td>
+                                        <td class="action">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal modal-slide-in fade" id="modals-slide-in">
+            <div class="modal-dialog sidebar-sm">
+                <form class="add-new-record modal-content pt-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                    <div class="modal-header mb-1">
+                        <h5 class="modal-title" id="exampleModalLabel">New Record</h5>
+                    </div>
+                    <div class="modal-body flex-grow-1">
+                        <div class="mb-1">
+                            <label class="form-label" for="basic-icon-default-fullname">Name</label>
+                            <input type="text"
+                                   class="form-control dt-full-name"
+                                   id="basic-icon-default-fullname"
+                                   placeholder="Ex-Application XYZ"
+                                   aria-label="Ex-Mobile Phone" />
+                        </div>
+                        <button type="button" class="btn btn-primary data-submit me-1">Submit</button>
+                        <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    $(function () {
+        $('#table-1').dataTable();
+        $('.action').append('<div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown">' +
+            feather.icons["more-vertical"].toSvg({ class: "font-small-4" }) +
+            '</a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item">' +
+            feather.icons["file-text"].toSvg({ class: "me-50 font-small-4" }) +
+            'Details</a><a href="javascript:;" class="dropdown-item">' +
+            feather.icons.archive.toSvg({ class: "me-50 font-small-4" }) +
+            'Archive</a><a href="javascript:;" class="dropdown-item delete-record">' +
+            feather.icons["trash-2"].toSvg({ class: "me-50 font-small-4" }) +
+            'Delete</a></div></div><a data-toggle="tooltip" data-placement="top" title="Edit" href="javascript:;" class="item-edit">' +
+            feather.icons.edit.toSvg({ class: "font-small-4" }) +
+            "</a>");
+    })
+</script>
+

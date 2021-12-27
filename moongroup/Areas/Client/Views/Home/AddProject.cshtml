@@ -1,0 +1,111 @@
+﻿@{
+    Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
+}
+<div class="content-body" style="padding: 58px 28px;">
+    <section>
+        <div class="row" style="justify-content:center;">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1>Add Project</h1>
+                        <div class="form-group">
+                            <label>Tax Year</label>
+                            <select class="form-control" id="year">
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                                <option value="2019">2019</option>
+                                <option value="2018">2018</option>
+                                <option value="2017">2017</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Job Type</label>
+                            @Html.DropDownList("ApplicationId", (IEnumerable<SelectListItem>)ViewBag.Applications, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="card-footer" style="text-align: end;">
+                        <a href="@Url.Action("Index","Home")" class="btn btn-secondary">Back</a>
+                        <button onclick="AddNewProject()" id="add_project" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    function AddNewProject() {
+        Swal.fire({
+            title: 'Are you sure you want to create new project?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showLoaderOnConfirm: true,
+            preConfirm: (ref) => {
+                return new Promise((resolve) => {
+                    SubmitDetails();
+                })
+            },
+            confirmButtonText: 'Confirm!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+            }
+        })
+    }
+    function SubmitDetails() {
+        var year = $('#year').val();
+        var applicationId = $('#ApplicationId').val();
+        var formdata = new FormData();
+        formdata.append("Year", year);
+        formdata.append("Applicationid", applicationId);
+        $('#add_project').addClass('btn-progress');
+        $.ajax({
+            type: 'POST',
+            url: '/Client/Home/AddProject',
+            data: formdata,
+            async: true,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data);
+                if (data.code == 200) {
+                    $('#add_project').removeClass('btn-progress');
+                    MixinSweet("Project Added Successfully", "", "success", 2000);
+                }
+                else {
+                    $('#add_project').removeClass('btn-progress');
+                    sweetMessage("Error!", data.shortMessage, "error");
+                }
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+    }
+</script>
+
+
+<!--Ajax-->
+<script>
+    var getResponseFromUrl = function (requestType, requestUrl, requestData, async) {
+        $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            async: async,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                response = data;
+                console.log(data);
+                return response;
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+    }
+</script>

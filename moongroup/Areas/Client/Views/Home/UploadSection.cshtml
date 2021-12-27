@@ -1,0 +1,229 @@
+﻿@model Entities.DocumentsVms
+@{
+    Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-body" style="padding: 58px 28px;">
+    <section>
+        <div class="row" style="justify-content:center;">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 style="font-size: 26px;font-weight: 700;">@Model.ProjectSettingName</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="nav nav-tabs nav-fill row" id="myTab" role="tablist" style="font-size: 16px;">
+                            <li class="nav-item col-md-6">
+                                <a style=" height: 100%;" class="nav-link active" id="home-tab-fill" data-toggle="tab" href="#home-fill" role="tab" aria-controls="home-fill" aria-selected="true">Your Documents</a>
+                            </li>
+                            <li class="nav-item col-md-6">
+                                <a style=" height: 100%;" class="nav-link" id="profile-tab-fill" data-toggle="tab" href="#profile-fill" role="tab" aria-controls="profile-fill" aria-selected="false">Documents from THE MOON GROUP TAX & ACCOUNTING SERVICES, LLC</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="home-fill" aria-labelledby="home-tab" role="tabpanel">
+                                <div class="table-responsive mb">
+                                    <table id="myTable" class="table client-table">
+                                        <thead style="">
+                                            <tr style="">
+                                                <th>Name</th>
+                                                <th>File Size</th>
+                                                <th>Last Modified</th>
+
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var i in Model.ListofDocumentsVms.Where(p => p.Type == Entities.Enum.DocumentType.AddedByUser))
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <span class="fw-bold" style="font-weight:700;">@i.Name</span>
+                                                    </td>
+                                                    @{
+                                                        var kb = Convert.ToInt32(i.FileSize) / 1024;
+                                                    }
+                                                    <td>@kb kb</td>
+                                                    <td>@i.CreatedAt</td>
+                                                    <td>
+                                                        <a href="@i.DocumentUrl" class="btn" style="color: #0d5dee;padding: 4px 1px;" download>
+                                                            <i class="fas fa-download"></i>
+                                                        </a>
+                                                        <a href="@i.DocumentUrl" target="_blank" class="btn image_link" style="color: #0d5dee;padding: 4px 1px;">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                        <button onclick="ShowDeleteModal(@i.Id)" class="btn " style="color: #f80039;padding: 4px 1px;">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <form id="uploadImages">
+                                    <div class="custom-file-container" data-upload-id="myFirstImage">
+                                        <label style="color:black">* Logo <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
+                                        <label class="custom-file-container__custom-file">
+
+                                            <input type="file" class="custom-file-container__custom-file__custom-file-input" id="files" name="files" multiple>
+
+                                            <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+                                            <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                        </label>
+                                        <div class="custom-file-container__image-preview"></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="profile-fill" aria-labelledby="profile-fill" role="tabpanel">
+                                <div class="table-responsive">
+                                    <table id="companyTable" class="table client-table">
+                                        <thead style="">
+                                            <tr style="">
+                                                <th>Name</th>
+                                                <th>File Size</th>
+                                                <th>Last Modified</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var i in Model.ListofDocumentsVms.Where(p => p.Type == Entities.Enum.DocumentType.AddedByAdmin))
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <span class="fw-bold" style="font-weight:700;">@i.Name</span>
+                                                    </td>
+                                                    <td>@i.FileSize</td>
+
+                                                    <td>@i.CreatedAt</td>
+                                                    <td>
+                                                        <a href="@i.DocumentUrl" class="btn" style="color: #0d5dee;padding: 4px 1px;" download>
+                                                            <i class="fas fa-download"></i>
+                                                        </a>
+                                                        <a href="@i.DocumentUrl" target="_blank" class="btn image_link" style="color: #0d5dee;padding: 4px 1px;">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                        <button onclick="ShowDeleteModal(@i.Id)" class="btn " style="color: #f80039;padding: 4px 1px;">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer" style="text-align:end">
+                        <a href="@Url.Action("Index","Home")" class="btn btn-secondary">Back</a>
+                        <button onclick="UploadImages()" id="uploadImagesBtn" class="btn btn-primary">Add Documents</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    $(function () {
+        $('#myTable').dataTable();
+        $('#companyTable').dataTable();
+        var first = new FileUploadWithPreview('myFirstImage');
+        $('.image_link').lightGallery({
+            thumbnail: true,
+            selector: 'a'
+        });
+    })
+    async function ShowDeleteModal(Id) {
+        Swal.fire({
+            title: 'Are you sure you want to delete?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm!',
+            showLoaderOnConfirm: true,
+            preConfirm: (ref) => {
+                return new Promise(async function (resolve, reject) {
+                    var response = await getResponseFromUrl("Get", "@Url.Action("DeleteDocument", "Home")?Id=" + Id, null);
+                    if (response.code == 200) {
+                        var result = response.result;
+                        console.log(result);
+                        location.reload();
+                        TimerSweet("Success!", "Option deleted successfully", "success", 1000);
+                    }
+                    else {
+                        TimerSweet("Error!", response.shortMessage, "error", 2000);
+                    }
+                })
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+            }
+        })
+    }
+    function UploadImages() {
+        var files = $('#files')[0].files;
+        if (files == null) {
+            sweetMessage("Warning!", "Please select some files", "error", 2000);
+            return false;
+        }
+        var id = '@Model.ProjectSettingId';
+        var formData = new FormData(document.getElementById('uploadImages'));
+        formData.append("Id", parseInt(id));
+        $('#uploadImagesBtn').addClass('btn-progress');
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("UploadDocuments", "Home")',
+            data: formData,
+            async: true,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data);
+                if (data.code == 200) {
+                    $('#uploadImagesBtn').removeClass('btn-progress');
+                    MixinSweet("Successs!", 'Documents Added', "success", 2000);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                }
+                else {
+                    sweetMessage("Error!", data.shortMessage, "error");
+                }
+            },
+            error: function (error) {
+
+                return error;
+            },
+        });
+    }
+</script>
+
+<!--Ajax-->
+<script>
+    var getResponseFromUrl = function (requestType, requestUrl, requestData) {
+        var response;
+        $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            data: requestData,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                response = data;
+                console.log(data);
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+        return response;
+    }
+</script>

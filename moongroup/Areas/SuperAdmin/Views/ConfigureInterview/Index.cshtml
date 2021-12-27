@@ -1,0 +1,763 @@
+﻿@model IEnumerable<Entities.ApplicaitionsVms>
+@{
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<!-- Horizontal Wizard -->
+<!-- Horizontal Wizard -->
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">Configure Applications</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol id="ol-breadcrumb" class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("Index","Dashboard")">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="@Url.Action("Index","ConfigureInterview")">Configure Applications</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-body">
+    <!-- Basic table -->
+    <section id="SurveysSection">
+        <div id="" class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header border-bottom p-1">
+                        <div class="head-label">
+                            <h6 class="mb-0">Applications</h6>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked="">
+                            <label class="btn btn-outline-primary waves-effect" for="btnradio1">All</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                            <label class="btn btn-outline-primary waves-effect" for="btnradio2">Active</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                            <label class="btn btn-outline-primary waves-effect" for="btnradio3">Blocked</label>
+                        </div>
+                        <div class="dt-buttons d-inline-flex">
+                            <button class="dt-button create-new btn btn-primary" tabindex="0" type="button" onclick="showAddNewModal()"  >
+                                <span>Add New Record</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body  table-responsive">
+                        <table id="table-1" class="datatables-basic table">
+                            <thead>
+                                <tr>
+                                    <th>Sr#</th>
+                                    <th>Application Name</th>
+                                    <th>Types</th>
+                                    <th>Created At</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataTable">
+                                @{
+                                    var n = "";
+                                    var count = 0;
+                                }
+                                @foreach (var i in Model)
+                                {
+                                    {
+                                        count = 0;
+                                        n = "";
+                                    }
+                                    @foreach (var m in i.Types)
+                                    {
+                                        if (count == 0)
+                                        {
+                                            n = m;
+                                        }
+                                        else
+                                        {
+                                            n = n + "," + m;
+                                        }
+                                        count++;
+                                    }
+                                    <tr data-row="1" class="">
+                                        <td class="">@i.Id</td>
+                                        <td>@i.Name</td>
+                                        <td>
+                                            <input type="hidden" value="@n" id="t-@i.Id" />
+                                            <a style="color: #fff;" onclick="showViewModal('t-@i.Id')" class="btn btn-info badge-shadow"><i class="fas fa-eye"></i></a>
+                                        </td>
+                                        <td>@i.CreatedAt</td>
+                                        <td>
+                                            <a style="color: #fff;padding:9px 9px;" href="@Url.Action("CreateForms","ConfigureInterview",new { Id= i.Id})" target="_blank" class="btn btn-warning badge-shadow"><i class="fas fa-cogs"></i></a>
+                                            <a style="color: #fff;padding:9px 9px;" onclick="showDeleteModal()" class="btn btn-danger badge-shadow"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal modal-slide-in fade" id="addNewModal">
+            <div class="modal-dialog sidebar-sm">
+                <form class="add-new-record modal-content pt-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                    <div class="modal-header mb-1">
+                        <h5 class="modal-title" id="exampleModalLabel">New Record</h5>
+                    </div>
+                    <div class="modal-body flex-grow-1">
+                        <div class="mb-1">
+                            <label class="form-label" for="basic-icon-default-fullname">Name</label>
+                            <input type="text"
+                                   class="form-control dt-full-name"
+                                   id="basic-icon-default-fullname"
+                                   placeholder="Ex-Application XYZ"/>
+                        </div>
+                        <button type="button" class="btn btn-primary data-submit me-1">Submit</button>
+                        <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- Update Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Interview</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 0px;" id="">
+                <input type="hidden" id="doc_id" />
+                <ul class="nav nav-tabs" id="myTab2" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link " id="home-tab1" data-toggle="tab" href="#home1" role="tab" aria-controls="home" aria-selected="false">Change Image</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab2" data-toggle="tab" href="#home2" role="tab" aria-controls="profile" aria-selected="false">Change Details</a>
+                    </li>
+                </ul>
+                <div class="tab-content tab-bordered" id="myTab3Content" style="padding:12px;">
+                    <div class="tab-pane fade" id="home1" role="tabpanel" aria-labelledby="home-tab1">
+                        <div>
+                            <img src="/app-assets/images/survey/1.jpg" style="width:90px;height:90px;" id="imageIcon" />
+                            <input type="file" id="file2" />
+                            <button type="button" onclick="ChangeImage()" id="add_icon" class="btn btn-success"><i style="margin-right:4px;" class="fa fa-check-circle"></i>Submit</button>
+                            <!-- row starts -->
+                            <div class="progress mb-3" id="progess_section1" style="display: none;">
+                                <div class="progress-bar" role="progressbar" id="bar1" data-width="0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">0%</div>
+                            </div>
+                            <!-- row ends -->
+                        </div>
+                    </div>
+                    <div class="tab-pane fade active show" id="home2" role="tabpanel" aria-labelledby="home-tab2">
+                        <form class="" id="Form2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Description*</label>
+                                        <textarea class="form-control" id="">
+                                            
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="add_btn3" class="btn btn-success"><i style="margin-right:4px;" class="fa fa-check-circle"></i>Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModal"><i class="fa fa-image"></i> Description</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="typesShow">
+                some description of the interview
+            </div>
+            <div class="modal-footer">
+                <div style="float:right">
+                    <button class="btn btn-danger m-t-15 waves-effect" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModal"> Interview</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="Name" class="form-control" required="" placeholder="Provide Interview Title... ">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Select Application</label>
+                            <select class="form-control">
+                                <option value="1">
+                                    TMG Client
+                                </option>
+                                <option value="2">
+                                    TMG Client 2
+                                </option>
+                                <option value="3">
+                                    TMG Client 3
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="description" name="description" class="form-control" required=""></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div style="float:right">
+                    <button class="btn btn-secondary m-t-15 waves-effect" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary m-t-15 waves-effect">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="answersViewModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModal"><i class="fa fa-image"></i>TMG Client Application</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <section id="form-vertical1" class="vertical-wizard">
+                    <div class="bs-stepper vertical vertical-wizard-example">
+                        <div class="bs-stepper-header">
+                            <div class="step" data-target="#terms-vertical">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">1</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Terms And Condtions</span>
+                                        <span class="bs-stepper-subtitle">Details</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="step" data-target="#account-details-vertical">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">2</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Basic Details</span>
+                                        <span class="bs-stepper-subtitle">Add Basic Details</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="step" data-target="#personal-info-vertical">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">3</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Personal Info</span>
+                                        <span class="bs-stepper-subtitle">Add Personal Info</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="step" data-target="#address-step-vertical">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">4</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Fourth Form</span>
+                                        <span class="bs-stepper-subtitle">some details</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="step" data-target="#four-vertical">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">5</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Fivth Form</span>
+                                        <span class="bs-stepper-subtitle">some details</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="step" data-target="#five-vertical">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">6</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Sixth Form</span>
+                                        <span class="bs-stepper-subtitle">some details</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bs-stepper-content">
+                            <div id="terms-vertical" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Tems And Conditions</h5>
+                                    <small>Details.</small>
+                                </div>
+                                <div class="row">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                                        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                    </p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-outline-secondary btn-prev" disabled>
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="account-details-vertical" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Account Details</h5>
+                                    <small class="text-muted">Enter Your Account Details.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-username">Username</label>
+                                        <input value="Usama" type="text" id="vertical-username" class="form-control" placeholder="johndoe" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-email">Email</label>
+                                        <input value="ubf558@gmail.com" type="email"
+                                               id="vertical-email"
+                                               class="form-control"
+                                               placeholder="john.doe@email.com"
+                                               aria-label="john.doe" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group form-password-toggle col-md-6">
+                                        <label class="form-label" for="vertical-password">Password</label>
+                                        <input value="1qe23e" type="password"
+                                               id="vertical-password"
+                                               class="form-control"
+                                               placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                    </div>
+                                    <div class="form-group form-password-toggle col-md-6">
+                                        <label class="form-label" for="vertical-confirm-password">Confirm Password</label>
+                                        <input value="1qe23e" type="password"
+                                               id="vertical-confirm-password"
+                                               class="form-control"
+                                               placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="personal-info-vertical" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Personal Info</h5>
+                                    <small>Enter Your Personal Info.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-first-name">First Name</label>
+                                        <input value="Usama" type="text" id="vertical-first-name" class="form-control" placeholder="John" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-last-name">Last Name</label>
+                                        <input value="Farooq" type="text" id="vertical-last-name" class="form-control" placeholder="Doe" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-country">Country</label>
+                                        <input value="Pakistan" type="text" id="vertical-country" class="form-control" placeholder="Pakistan" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-language">Language</label>
+                                        <input value="Urdu" type="text" id="vertical-language" class="form-control" placeholder="Urdu" />
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="address-step-vertical" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Fourth Form</h5>
+                                    <small>some details</small>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address">Do you smoke?</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="validationCheckBootstrap" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap"> 1 Pack/day </label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="validationCheckBootstrap2" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap2">2 Pack/day</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="validationCheckBootstrap3" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap3">+3 Pack/day</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="validationCheckBootstrap4" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap4">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-landmark">Do you do any exercise?</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="validationCheckBootstrap5" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap5"> 1-3 a week </label>
+
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="validationCheckBootstrap6" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap6">3-5 a week</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="validationCheckBootstrap7" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap7">Everyday</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="validationCheckBootstrap8" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap8">Never</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="pincode2">How many hours do you sleep?</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="validationCheckBootstrap9" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap9"> Less than 5 hours </label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="validationCheckBootstrap10" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap10">5-6 hours</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="validationCheckBootstrap11" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap11">7-8 hours</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="validationCheckBootstrap12" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap12">9-10 hours</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="validationCheckBootstrap13" required="">
+                                            <label class="custom-control-label" for="validationCheckBootstrap13">More than 10 hours</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="four-vertical" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Fivth Form</h5>
+                                    <small>some details</small>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address">Check the conditions that apply to you or to any members of your immediate relatives:</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="con-1" required="">
+                                            <label class="custom-control-label" for="con-1"> Asthma </label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="con-2" required="">
+                                            <label class="custom-control-label" for="con-2">Cardiac disease</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="con-3" required="">
+                                            <label class="custom-control-label" for="con-3">Hypertension</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="con-4" required="">
+                                            <label class="custom-control-label" for="con-4">Epilepsy</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="con-5" required="">
+                                            <label class="custom-control-label" for="con-5">Cancer</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="con-6" required="">
+                                            <label class="custom-control-label" for="con-6">Diabetes</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="con-7" required="">
+                                            <label class="custom-control-label" for="con-7">Psychiatric disorder</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address">Check the symptoms that you're currently experiencing:</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="con-1" required="">
+                                            <label class="custom-control-label" for="con-1"> Chest pain </label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="con-2" required="">
+                                            <label class="custom-control-label" for="con-2">Cardiac disease</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="con-3" required="">
+                                            <label class="custom-control-label" for="con-3">Hematological</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <label class="custom-control-label" for="con-4">Neurological</label>
+                                            <input type="checkbox" class="custom-control-input" id="con-5" required="">
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="con-4" required="">
+                                            <label class="custom-control-label" for="con-5">Gastrointestinal</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="con-6" required="">
+                                            <label class="custom-control-label" for="con-6">Weight gain</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="con-7" required="">
+                                            <label class="custom-control-label" for="con-7">Lymphatic</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address">Are you currently taking any medication?</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="med-1" required="">
+                                            <label class="custom-control-label" for="med-1"> Yes </label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="med-2" required="">
+                                            <label class="custom-control-label" for="med-2">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address">Do you have any medication allergies?</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="aler-1" required="">
+                                            <label class="custom-control-label" for="aler-1"> Yes </label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="aler-2" required="">
+                                            <label class="custom-control-label" for="aler-2">No</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="aler-3" required="">
+                                            <label class="custom-control-label" for="aler-3">Not sure</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address">How often do you consume alcohol?</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="alco-1" required="">
+                                            <label class="custom-control-label" for="alco-1">Daily</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="alco-2" required="">
+                                            <label class="custom-control-label" for="alco-2">Weekly</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="alco-3" required="">
+                                            <label class="custom-control-label" for="alco-3">Monthly</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="alco-4" required="">
+                                            <label class="custom-control-label" for="alco-4">Occassionally</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="alco-5" required="">
+                                            <label class="custom-control-label" for="alco-5">Never</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="five-vertical" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Sixth Form</h5>
+                                    <small>Sixth Form</small>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address">Have you had surgery in the last two years?</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="sur-1" required="">
+                                            <label class="custom-control-label" for="sur-1"> Yes </label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="sur-2" required="">
+                                            <label class="custom-control-label" for="sur-2">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address">How would you describe your nutritional habits?</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="nut-1" required="">
+                                            <label class="custom-control-label" for="nut-1"> Bad </label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="nut-2" required="">
+                                            <label class="custom-control-label" for="nut-2">Good</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="nut-2" required="">
+                                            <label class="custom-control-label" for="nut-2">Optimal</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address">Do you have any injuries?</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="inj-1" required="">
+                                            <label class="custom-control-label" for="inj-1"> Yes </label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="inj-2" required="">
+                                            <label class="custom-control-label" for="inj-2">No</label>
+                                        </div>
+                                        <label>If yes give details</label>
+                                        <textarea class="form-control">some details</textarea>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="vertical-address">Do you suffer from back pain?</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input checked type="checkbox" class="custom-control-input" id="back-1" required="">
+                                            <label class="custom-control-label" for="back-1"> Yes </label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="back-2" required="">
+                                            <label class="custom-control-label" for="back-2">No</label>
+                                        </div>
+                                        <label>If yes give details</label>
+                                        <textarea class="form-control">some details</textarea>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-success btn-submit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- END: Page Vendor JS-->
+<script>
+    $(function () {
+        $('#configuresurveys').addClass("active");
+        $('#table-1').dataTable();
+        $('#table-2').dataTable();
+
+    })
+    function showViewModal(nodeId) {
+        var s = $('#' + nodeId).val();
+        $('#typesShow').html(s);
+        $('#descriptionModal').modal("show");
+    }
+    function showAddNewModal() {
+        $('#addNewModal').modal("show");
+    }
+</script>
+<script>
+    function FilterTable(element) {
+        $('#TableTitle').html(element);
+        $('#dateRangeModal').modal("hide");
+
+        $('.loader1').fadeIn("slow");
+        setTimeout(function () {
+            $('#table-div').attr("style", "height:245px;overflow: hidden;");
+        }, 400);
+        setTimeout(function () {
+            $('.loader1').fadeOut("slow");
+            $('#table-div').attr("style", "");
+        }, 2000);
+    }
+    function DateRangeFilter() {
+        $('#dateRangeModal').modal("show");
+    }
+    function showViewModal1() {
+        $('#table-ReportDate').show();
+        $('#Employee').hide();
+    }
+</script>

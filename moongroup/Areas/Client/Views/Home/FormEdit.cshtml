@@ -1,0 +1,734 @@
+﻿@model IEnumerable<Entities.FormsSectionFieldsVms>
+@{
+    Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .form-label {
+        font-size: 14px;
+        font-weight: 900;
+    }
+</style>
+<div class="content-body" style="padding: 58px 28px;">
+    <section>
+        <div class="row" style="justify-content:center;">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 id="SectionName"></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="ShowForms">
+
+                        </div>
+                    </div>
+                    <div class="card-footer" style="text-align:end">
+                        <a id="BackButton" href="@Url.Action("FormSection","Home")" disabled class="btn btn-secondary">Back</a>
+                        <button onclick="SubmitForm()" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="multiFormDiv" style="display:none;">
+
+        </div>
+    </section>
+</div>
+<script src="/app-assets/vendors/js/forms/cleave/cleave.min.js"></script>
+@* Clone Section *@
+<div style="display:none">
+    <!--Fields-->
+    <!--Text Field-->
+    <div class="form-group col-md-6" style="display:none;" id="textField">
+        <label class="form-label" for="" style="width:100%">
+            <span id="FieldName"></span>
+        </label>
+        <input type="text" id="fieldValue" class="form-control" />
+    </div>
+    <!--Text Field-->
+    <!--Number Field-->
+    <div class="form-group col-md-6" style="display:none;" id="numberField">
+        <label class="form-label" for="" style="width:100%">
+            <span id="FieldName"></span>
+        </label>
+        <input type="number" id="fieldValue" class="form-control number_field" />
+    </div>
+    <!--Number Field-->
+    <!--Date Field-->
+    <div class="form-group col-md-6" style="display:none;" id="dateField">
+        <label class="form-label" for="" style="width:100%">
+            <span id="FieldName"></span>
+        </label>
+        <input type="date" id="fieldValue" class="form-control" />
+    </div>
+    <!--Date Field-->
+    <!--MASK Field-->
+    <div class="form-group col-md-6" style="display:none;" id="maskField">
+        <label class="form-label" for="" style="width:100%">
+            <span id="FieldName"></span>
+        </label>
+        <input type="text" id="fieldValue" class="form-control ssn" />
+    </div>
+    <!--MASK Field-->
+    <!--Dollar Field-->
+    <div class="form-group col-md-6" style="display:none;" id="dollarField">
+        <label class="form-label" for="" style="width:100%">
+            <span id="FieldName"></span>
+        </label>
+        <div class="input-group mb-2">
+            <span class="input-group-text" id="basic-addon1">$</span>
+            <input type="text" id="fieldValue" class="form-control">
+        </div>
+    </div>
+    <!--Dollar Field-->
+    <!--TextArea Field-->
+    <div class="form-group col-md-6" style="display:none;" id="textareaField">
+        <label class="form-label" for="" style="width:100%">
+            <span id="FieldName"></span>
+        </label>
+        <textarea rows="2" class="form-control" id="fieldValue"></textarea>
+    </div>
+    <!--TextArea Field-->
+    <!--passwordField Field-->
+    <div class="form-group col-md-6" style="display:none;" id="passwordField">
+        <label class="form-label" for="" style="width:100%">
+            <span id="FieldName"></span>
+        </label>
+        <div class="input-group input-group-merge form-password-toggle mb-2">
+            <input type="password" id="fieldValue" class="form-control" placeholder="Your Password" autocomplete="new-password">
+            <span class="input-group-text cursor-pointer"><i class="fas fa-eye"></i></span>
+        </div>
+    </div>
+    <!--passwordField Field-->
+    <!--selectField Field-->
+    <div class="form-group col-md-6" style="display:none;" id="selectField">
+        <label class="form-label" for="" style="width:100%">
+            <span id="FieldName"></span>
+        </label>
+        <select class="form-control" id="fieldValue">
+        </select>
+    </div>
+    <!--selectField Field-->
+    <!--Checkbox-->
+    <div class="form-group col-md-6" style="display:none;" id="checkboxField">
+        <label class="form-label" for="" style="width:100%;">
+            <span id="FieldName"></span>
+        </label>
+        <div id="fieldValue">
+
+        </div>
+    </div>
+    <!--Checkbox-->
+    <!--Radio-->
+    <div class="form-group col-md-6" style="display:none;" id="radioField">
+        <label class="form-label" for="" style="width:100%;">
+            <span id="FieldName"></span>
+        </label>
+        <div id="fieldValue">
+
+        </div>
+    </div>
+    <!--Radio-->
+    <!--Group Field-->
+    <div class="col-md-12" id="GroupField" style="display: none;">
+        <div class="mb-5 mt-2" style="width: 100%; border-bottom: 1px solid #667169;">
+            <div id="GroupAcc" class="">
+                <span id="FieldName">Basic Personal Information</span>
+                <span id="GFieldRequirement" class="" style="display: block;font-size: 10px;">
+
+                </span>
+            </div>
+            <div id="fieldValue" class="row mt-2 mb-2">
+
+            </div>
+        </div>
+    </div>
+    <!--Multi Field-->
+    <div class="col-md-12" id="MultiField" style="display: none;">
+        <div class="mb-5 mt-2" style="width: 100%; border-bottom: 1px solid #667169;">
+            <div id="GroupAcc" class="" style="display: flex;justify-content: space-between;">
+                <span id="FieldName">Basic Personal Information</span>
+
+                <div id="removeBtn">
+
+                </div>
+            </div>
+            <div id="fieldValue" class="row mt-2 mb-2">
+
+            </div>
+        </div>
+    </div>
+    <!--Multi Field-->
+    <!--Add Multi Field-->
+    <div class="col-md-12" id="addMultiSec">
+
+    </div>
+    <!--AddMulti Field-->
+
+</div>
+@* Clone Section *@
+
+<script>
+    $(function () {
+        $('#BackButton').attr('href','/Client/Home/FormSection?Id=@ViewBag.SettingId');
+        $('#BackButton').attr('disabled',false);
+        $('#ShowForms').html("");
+        AppendForms();
+    })
+    function AppendForms() {
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Action("GetFormFields", "Home",new {Id = ViewBag.Id})',
+            data: null,
+            async: true,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data);
+                $('#SectionName').html(data.name);
+                var result = GetFields(data.sectionFields,0,0);
+                $('#ShowForms').html(result);
+                setTimeout(function () {
+                    new Cleave($('.ssn'), { blocks: [3, 3, 3], uppercase: !0 });
+                    $('.form-password-toggle .input-group-text').on('click', function (e) {
+                        e.preventDefault();
+                        var a = $(this);
+                        var n = $(a).closest('.form-password-toggle');
+                        var  o = $(a).closest('.form-password-toggle').find('input');
+                        "password" === o.attr("type") ? (o.attr("type", "text"), n.find("i").addClass('fa-eye-slash').removeClass('fa-eye')) : "text" === o.attr("type") && (o.attr("type", "password"), n.find("i").addClass('fa-eye').removeClass('fa-eye-slash'));
+                    })
+                }, 1000);
+
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    }
+    function GetFields(fields,num,sectionId) {
+        var result = "";
+        fields.forEach(function (item) {
+            if (item.fieldType == 0) {
+                var clone = $('#textField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            else if (item.fieldType == 1) {
+                var clone = $('#numberField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            else if (item.fieldType == 2) {
+                var clone = $('#textareaField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            else if (item.fieldType == 3) {
+                var clone = $('#selectField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                var options = GetFormsFieldOptions(item.formFieldsOptions, 3, item.id);
+                clone.first().find('#fieldValue').html(options);
+            }
+            else if (item.fieldType == 4) {
+                var clone = $('#checkboxField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                var options = GetFormsFieldOptions(item.formFieldsOptions, 4, item.id);
+                clone.first().find('#fieldValue').html(options);
+            }
+            else if (item.fieldType == 5) {
+                var clone = $('#radioField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                var options = GetFormsFieldOptions(item.formFieldsOptions, 5, item.id);
+                clone.first().find('#fieldValue').html(options);
+            }
+            else if (item.fieldType == 6) {
+                var clone = $('#passwordField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            else if (item.fieldType == 7) {
+                var clone = $('#GroupField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                //clone.first().find('#GFieldRequirement').html("<span>Group Field</span>");
+                var options = GetFields(item.groupFields, 7, item.id);
+                clone.first().find('#fieldValue').html(options);
+
+                //var nameTrim = item.name.replace(/\s/g, '') + "-";
+                //clone.first().find('#GroupAcc').attr('data-target', '#accordian-' + nameTrim+  item.id);
+                //clone.first().find('#GroupAcc').attr('id', 'accordianWrap-' + nameTrim + item.id);
+                //clone.first().find('#GroupAccChild').attr('data-parent', '#accordianWrap-' + nameTrim + item.id);
+                //clone.first().find('#GroupAccChild').attr('id', 'accordian-' + nameTrim + item.id);
+            }
+            else if (item.fieldType == 8) {
+                var clone2 = $('#MultiField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone2.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone2.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone2.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                var options = GetFields(item.groupFields, 8, item.id);
+                clone2.first().find('#fieldValue').html(options);
+                clone2.attr('id', 'f-' + item.id);
+                var clone = $('#addMultiSec').clone();
+                clone.addClass(`f-${item.id}`);
+                clone.html(`<button onclick=AddMultiForm('f-${item.id}') class="btn btn-warning"><i class="fas fa-plus" style="margin-right: 13px;"></i>Add Dependents</button>`)
+                $('#multiFormDiv').append(clone2);
+            }
+            else if (item.fieldType == 9) {
+                var clone = $('#dateField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            else if (item.fieldType == 10) {
+                var clone = $('#maskField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            else if (item.fieldType == 11) {
+                var clone = $('#dollarField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            clone.show();
+            if (num == 8) {
+                clone.addClass('thissectionField multiTypeFields');
+            }
+            else {
+                clone.addClass('thissectionField');
+            }
+            clone.attr('data-sectionId', sectionId);
+            clone.attr('data-fieldType', item.fieldType);
+            clone.attr('data-fieldId', item.id);
+            clone.attr('id', '');
+            result = result + clone[0].outerHTML;
+        })
+        return result;
+    }
+    function GetFormsFieldOptions(options,num,id) {
+        var result = "";
+        if (num == 3) {
+            options.forEach(function (item) {
+                var option = "<option value='" + item.text + "'>" + item.text + "</option>";
+                result += option;
+            })
+        }
+        else if (num == 4) {
+            options.forEach(function (item) {
+                var option = `<div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="i-${id}" class="custom-control-input" data-value="${item.text}" id="${item.id}" required="">
+                                <label class="custom-control-label" for="${item.id}"> ${item.text} </label>
+                            </div>`;
+                result += option;
+            })
+        }
+        else if (num == 5) {
+            var counaa = 0;
+            options.forEach(function (item) {
+                counaa++;
+                if (counaa == 1) {
+                    var option = `<div class="custom-control custom-checkbox">
+                                <input type="radio" checked name="i-${id}" class="custom-control-input" data-value="${item.text}" id="${item.id}" required="">
+                                <label class="custom-control-label" for="${item.id}"> ${item.text} </label>
+                            </div>`;
+                }
+                else {
+                    var option = `<div class="custom-control custom-checkbox">
+                                <input type="radio" name="i-${id}" class="custom-control-input" data-value="${item.text}" id="${item.id}" required="">
+                                <label class="custom-control-label" for="${item.id}"> ${item.text} </label>
+                            </div>`;
+                }
+                result += option;
+            })
+        }
+        return result;
+    }
+</script>
+<script>
+    function AddMultiForm(Id) {
+        var cloneSection = $('#' + Id).clone();
+        cloneSection.find('#removeBtn').html(`<button onclick="RemoveIt(this)" class="btn btn-danger">Remove It</button>`);
+        cloneSection.show();
+        cloneSection.attr('id', '');
+        cloneSection.attr('data-multisection', Id);
+        var timestamp = new Date().getTime().toString();
+        cloneSection.find('[data-fieldtype="5"]').each(function (i,obj1) {
+            var count = 0;
+            $(obj1).find('.custom-checkbox').each(function (i, obj2) {
+                count++;
+                $(obj2).find('[type="radio"]').attr('id', timestamp + "-"+ count);
+                $(obj2).find('label').attr('for', timestamp + "-"+ count);
+            });
+        })
+
+        cloneSection.find('[data-fieldtype="4"]').each(function (i, obj1) {
+            var count = 0;
+            $(obj1).find('.custom-checkbox').each(function (i, obj2) {
+                count++;
+                $(obj2).find('[type="radio"]').attr('id', timestamp + "-" + count);
+                $(obj2).find('label').attr('for', timestamp + "-" + count);
+            });
+        })
+        $('.' + Id).append(cloneSection);
+    }
+    function RemoveIt(element) {
+        $(element).closest('.col-md-12').remove();
+    }
+</script>
+
+<!--Except multitple forms-->
+<script>
+    var bool = true;
+    function SubmitForm() {
+        bool = true;
+        var sectionId = parseInt('@ViewBag.Id');
+        var settingId = parseInt('@ViewBag.SettingId');
+        var GetAllValues = [];
+
+        $('#ShowForms').find(('.thissectionField:not(.multiTypeFields)')).each(function (i, obj) {
+            var id = $(obj).attr('data-fieldId');
+            var type = parseInt($(obj).attr('data-fieldType'));
+            var notInAll = [4, 5, 7, 8];
+            if (!notInAll.includes(type)) {
+                var values = getDataFromSimpleField($(obj), id, sectionId, settingId, type);
+                GetAllValues.push(values);
+                if (GetAllValues.includes(false)) {
+                    bool = false;
+                }
+            }
+            else if (type == 5) {
+                var values = getDataFromRadioField($(obj), id, sectionId, settingId, type);
+                GetAllValues.push(values);
+                if (GetAllValues.includes(false)) {
+                    bool = false;
+                }
+            }
+            else if (type == 4) {
+                var values = getDataFromCheckboxField($(obj), id, sectionId, settingId, type);
+                GetAllValues.push(values);
+                if (GetAllValues.includes(false)) {
+                    bool = false;
+                }
+            }
+            else if (type == 8) {
+                var values = getDataFromMultiGroupField($(obj), id, sectionId, settingId, type);
+                if (values.length > 0) {
+                    values.forEach(function (item) {
+                        if (item.fieldValues.includes(false)) {
+                            bool = false;
+                        }
+                        GetAllValues.push(item);
+                    })
+                }
+            }
+        });
+        console.log(GetAllValues);
+        if (bool == false) {
+            MixinSweet("Please fill all the required fields", "", "error", 2000);
+        }
+        else {
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                async: true,
+                url: '/Client/Home/SaveFormSection',
+                data: JSON.stringify(GetAllValues),
+                success: function (data) {
+                    if (data.code == 200) {
+                        MixinSweet("Form Submitted Successfully", "", "success", 2000);
+                        window.location.href = '/Client/Home/FormSection?Id=@ViewBag.SettingId';
+                    }
+                    else {
+                        sweetMessage("Error", data.shortMessage, "error");
+                    }
+                },
+                failure: function (response) {
+                    console.log(response);
+                }
+            });
+        }
+    }
+    function getDataFromSimpleField(element, Id, sectionId, settingId, type) {
+        var s = false;
+        var label = $(element).find('#FieldName').text().replaceAll("*", "").trim();
+        var value = $(element).find('#fieldValue').val();
+        if (value == "" || value == null || value == undefined) {
+            s = false;
+            $(element).find('#fieldValue').addClass('is-invalid');
+            $(element).find('#fieldValue').removeClass('is-valid');
+        }
+        else if (!value.replace(/\s/g, '').length) {
+            s = false;
+            $(element).find('#fieldValue').addClass('is-invalid');
+            $(element).find('#fieldValue').removeClass('is-valid');
+        }
+        else {
+            s = true;
+            $(element).find('#fieldValue').addClass('is-valid');
+            $(element).find('#fieldValue').removeClass('is-invalid');
+        }
+        if (s == false) {
+            return false;
+        }
+        var data = {
+            label: label,
+            value: value,
+            fieldId: parseInt(Id),
+            values: [],
+            fieldtype: type,
+            sectionId: sectionId,
+            settingId: settingId,
+            fieldValues: [],
+        };
+        return data;
+    }
+    function getDataFromRadioField(element, Id, sectionId, settingId, type) {
+        var label = $(element).find('#FieldName').text().replaceAll("*", "").trim();
+        var value =  $(element).find('input[name="i-' + Id + '"]:checked').attr('data-value');
+        var data = {
+            label: label,
+            value: value,
+            fieldId: parseInt(Id),
+            values: [],
+            fieldtype: type,
+            sectionId: sectionId,
+            settingId: settingId,
+            fieldValues: [],
+        };
+        return data;
+    }
+    function getDataFromCheckboxField(element, Id, sectionId, settingId, type) {
+        var label = $(element).find('#FieldName').text().replaceAll("*", "").trim();
+        var list = [];
+        var values = $(element).find('input[name="i-' + Id + '"]:checked');
+        values.each(function (i, obj) {
+            list.push($(obj).attr('data-value'));
+        })
+        var data = {
+            label: label,
+            value: "",
+            fieldId: parseInt(Id),
+            values: list,
+            fieldtype: type,
+            sectionId: sectionId,
+            settingId: settingId,
+            fieldValues: [],
+        };
+        return data;
+    }
+    function getDataFromMultiGroupField(element, Id, sectionId, settingId, type1) {
+        var GetAllValues = [];
+        var label = $(element).find('#FieldName').text().replaceAll("*", "").trim();
+        var numOfChilds = $('[data-fieldid="' + Id + '"]').find('[data-multisection="f-' + Id + '"]');
+        numOfChilds.each(function (i, obj) {
+            var childFieldValues = [];
+            $(obj).find('.thissectionField.multiTypeFields[data-sectionId = "' + Id + '"]').each(function (i, obj) {
+                var idofField = $(obj).attr('data-fieldId');
+                var type = parseInt($(obj).attr('data-fieldType'));
+                var notInAll = [4, 5, 7, 8];
+                if (!notInAll.includes(type)) {
+                    var values = getDataFromSimpleField($(obj), idofField, sectionId, settingId, type);
+                    childFieldValues.push(values);
+                }
+                else if (type == 5) {
+                    var values = getDataFromRadioField($(obj), idofField, sectionId, settingId, type);
+                    childFieldValues.push(values);
+                }
+                else if (type == 4) {
+                    var values = getDataFromCheckboxField($(obj), idofField, sectionId, settingId, type);
+                    childFieldValues.push(values);
+                }
+                else if (type == 8) {
+                    var values = getDataFromMultiGroupField($(obj), idofField, sectionId, settingId, type);
+                    childFieldValues.push(values);
+                }
+            })
+            var data = {
+                label: label,
+                value: "",
+                fieldId: parseInt(Id),
+                values: [],
+                fieldValues: childFieldValues,
+                fieldtype: type1,
+                sectionId: sectionId,
+                settingId: settingId,
+            };
+            GetAllValues.push(data);
+        })
+        return GetAllValues;
+    }
+</script>
+<!--Ajax-->
+<script>
+    var getLayoutResponeFromUrl = function (requestType, requestUrl, requestData) {
+        var response;
+        $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                return response;
+                response = data;
+                console.log(data);
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+    }
+</script>

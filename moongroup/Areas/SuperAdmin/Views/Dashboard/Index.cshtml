@@ -1,0 +1,49 @@
+﻿@model Entities.SuperAdminDashboard
+@{
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout_Admin.cshtml";
+}
+<div class="content-body">
+    <section id="dashboard-ecommerce">
+        <div class="card card-statistics">
+            <div class="card-header">
+                <h4 class="card-title">Statistics</h4>
+                <div class="d-flex align-items-center">
+                </div>
+            </div>
+            <div class="card-body statistics-body">
+                <div class="row">
+                    <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
+                        <div class="d-flex flex-row">
+                            <div class="avatar bg-light-info me-2">
+                                <div class="avatar-content">
+                                    <i data-feather="user" class="avatar-icon"></i>
+                                </div>
+                            </div>
+                            <div class="my-auto ml-2">
+                                <h4 class="fw-bolder mb-0">@Model.TotalUsers</h4>
+                                <p class="card-text font-small-3 mb-0">Comanies</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
+                        <div class="d-flex flex-row">
+                            <div class="avatar bg-light-info me-2">
+                                <div class="avatar-content">
+                                    <i data-feather="box" class="avatar-icon"></i>
+                                </div>
+                            </div>
+                            <div class="my-auto ml-2">
+                                <h4 class="fw-bolder mb-0">@Model.ApplicationTypes</h4>
+                                <p class="card-text font-small-3 mb-0">Applications Types</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="/app-assets/js/chartjs/chart.min.js"></script>
+<script src="/app-assets/js/jquery.sparkline.min.js"></script>
+<script src="/app-assets/js/apexcharts/apexcharts.min.js"></script>
+<script src="/app-assets/js/widget-chart.js"></script>

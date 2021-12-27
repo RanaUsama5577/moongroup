@@ -1,0 +1,197 @@
+﻿@model IEnumerable<Entities.ProjectsVms>
+@{
+    Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
+}
+<div class="content-body" style="padding: 58px 28px;">
+    <section>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="" style="width: 100%;">
+                    <h6 style="display:inline-block;font-size:20px;font-weight:700;" class="mb-0">Your Projects</h6>
+                    <div style="margin: auto;float: right;margin-right: .5rem !important;display: inline !important;">
+                        <a href="@Url.Action("AddProject","Home")" class="btn btn-primary waves-effect waves-float waves-light">
+                            Create Project
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            @if (Model.Count() > 0)
+            {
+                @foreach (var i in Model)
+                {
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header mb-3" style="border-bottom: 1px solid #eee;">
+                                <h3>
+                                    @i.Year @i.ApplicaitonName
+                                </h3>
+                                <div class="badge badge-shadow badge-warning">
+                                    <i class="fas fa-sync-alt"></i>
+                                    @if (i.Status == Entities.Enum.ApplicationStatus.Pending)
+                                    {
+                                        <span>Pending</span>
+                                    }
+                                    else if (i.Status == Entities.Enum.ApplicationStatus.InProgress)
+                                    {
+                                        <span>In Progress</span>
+                                    }
+                                    else if (i.Status == Entities.Enum.ApplicationStatus.Canceled)
+                                    {
+                                        <span>Canceled</span>
+                                    }
+                                    else if (i.Status == Entities.Enum.ApplicationStatus.Completed)
+                                    {
+                                        <span>Completed</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3 row" style="display:flex!important;justify-content:space-between!important;">
+                                            @foreach (var a in i.ApplicationType)
+                                            {
+                                            <div class="col-md-4">
+                                                <div style="position:relative!important">
+                                                    @if (a.Status == Entities.Enum.ProjectSettingStatus.InProgress && a.ApplicationType != Entities.Enum.ApplicationTypes.Viewer)
+                                                    {
+                                                        <div class="client-btn-pill">
+                                                            1
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+
+                                                    }
+                                                    @if (a.ApplicationType == Entities.Enum.ApplicationTypes.Form)
+                                                    {
+                                                        <button onclick="window.location.href='@Url.Action("FormSection", "Home", new { Id = a.ProjectSettingId })'" class="btn btn-primary client-btn">@a.Name</button>
+                                                    }
+                                                    else if (a.ApplicationType == Entities.Enum.ApplicationTypes.Uploader)
+                                                    {
+                                                        <button onclick="window.location.href='@Url.Action("UploadSection", "Home", new { Id = a.ProjectSettingId })'" class="btn btn-primary client-btn">@a.Name</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button onclick="window.location.href='@Url.Action("ResultSection", "Home", new { Id = a.ProjectSettingId })'" class="btn btn-primary client-btn">@a.Name</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                            }
+                                        </div>
+                                        <div>
+                                            <div class="mb-2">
+                                                <h3 style="display: inline-block;font-size: 17px;font-weight: 700;">
+                                                    Open Tasks
+                                                </h3>
+                                                <i class="fas fa-chevron-up ml-1"></i>
+                                            </div>
+                                            @foreach (var a in i.ApplicationType)
+                                            {
+                                                @if (a.ApplicationType == Entities.Enum.ApplicationTypes.Viewer)
+                                                {
+
+                                                }
+                                                else
+                                                {
+                                        <div class="task-btn">
+                                            @if (a.Status == Entities.Enum.ProjectSettingStatus.InProgress)
+                                            {
+                                                <i class="far fa-circle" style="color: #15baec;"></i>
+                                                <span>Complete @a.Name Section</span>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-check-circle" style="color: #86ec15;"></i>
+                                                <span> @a.Name Section Completed</span>
+                                            }
+                                        </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <h4 class="text-uppercase">
+                                                CONTACT INFO
+                                            </h4>
+                                        </div>
+                                        <div class="mb-3">
+                                            <img src="@i.Image" class="float-left" style="width: 70px; height: 70px; border-radius: 54px; ">
+                                            <div class="" style="margin-left: 6rem !important;">
+                                                <h4 style="font-size: 19px;font-weight: 800;color: #0d0d0c;">@i.PersonName</h4>
+                                                <p style="font-size:13px;font-weight: 800;color: #0d0d0c;">
+                                                    @i.CompanyName
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2" style="border-bottom: 1px solid #dedede;">
+                                            <div>
+                                                <p>
+                                                    <i class="fas fa-phone mr-2" style="color: #15baec;"></i>
+                                                    @i.Phone
+                                                </p>
+                                                <p>
+                                                    <i class="fas fa-envelope mr-2" style="color: #15baec;"></i> @i.Email
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3 class="mb-3" style="font-size: 17px;font-weight: 700;">
+                                                REFER @i.PersonName
+                                            </h3>
+                                            <h2 style="font-size: 23px;font-weight: 700;">
+                                                Share your referral link:
+                                            </h2>
+                                            <p>
+                                                <span id="p-@i.ProjectId">https://dedramoon.assortcloud.com/invite/@i.UserName</span><i onclick="CopyMe(this)" data-id="p-@i.ProjectId" class="fas fa-copy ml-1" style="color: #15baec;cursor:pointer;"></i>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header mb-3" style="border-bottom: 1px solid #eee;">
+                            <h3>
+                                No Projects to show. Please create one.
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>
+<script>
+    function CopyMe(element) {
+        var s = $(element).attr('data-id');
+        var element2 = document.getElementById(s);
+        if (document.body.createTextRange) {
+            range = document.body.createTextRange();
+            range.moveToElementText(element2);
+            range.select();
+        } else if (window.getSelection) {
+            selection = window.getSelection();
+            range = document.createRange();
+            range.selectNodeContents(element2);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+        try {
+            document.execCommand('copy');
+            MixinSweet("Text Copied", "", "info", 2000);
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+</script>

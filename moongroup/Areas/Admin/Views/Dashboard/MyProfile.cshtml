@@ -1,0 +1,314 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="content-header row">
+        <div class="content-header-left col-md-9 col-12 mb-2">
+            <div class="row breadcrumbs-top">
+                <div class="col-12">
+                    <h2 class="content-header-title float-left mb-0">My Profile</h2>
+                    <div class="breadcrumb-wrapper">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Index","Dashboard")">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <a href="@Url.Action("MyProfile","Dashboard")">My Profile</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-body">
+        <!-- Basic table -->
+        <section>
+            <div class="row">
+                <div class="col-sm-3 col-xs-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card author-box" style="box-shadow: none!important">
+                                <div class="card-body">
+                                    <div style="text-align: center;" class="author-box-center">
+                                        <img style="width: 94px;height: 94px;" alt="image" src="/default-user-icon-4.jpg" class="imageFix rounded-circle author-box-picture imageUrl">
+                                        <div class="clearfix"></div>
+                                        <div class="author-box-name">
+                                            <a id="userName"></a>
+                                        </div>
+                                        <div class="author-box-job">Admin</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-block" onclick="changePictureModal()">Change Picture</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9 col-xs-12">
+                    <div class="card">
+                        <div class="padding-20">
+                            <ul class="nav nav-tabs" id="myTab2" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" onclick="change_tab(1)" id="profile-tab2" data-toggle="tab" href="#settings" role="tab" aria-selected="true">Basic Details</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" onclick="change_tab(2)" href="#change_password" data-toggle="tab" href="#about" role="tab" aria-selected="false">Change Password</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content tab-bordered" id="tab1">
+                                <div class="tab-pane fade active show mytabs" id="show1" role="tabpanel" aria-labelledby="home-tab2">
+
+                                    <form method="post" id="editBasicForm">
+                                        <div class="card-header">
+                                            <h4>Edit Profile</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="form-group col-6">
+                                                    <label for="UserName">Full Name</label>
+                                                    <input id="UserName" type="text" name="Name" maxlength="32" class="form-control" disabled autofocus>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer text-right">
+                                            <span id="shower">
+                                                <button type="button" class="btn btn-primary" onclick="shower(1)"><i class="fa fa-edit"></i> Edit</button>
+                                            </span>
+                                            <span id="closer" style="display: none;">
+                                                <button type="submit" id="basicSbBtn" class="btn btn-primary"><i class="fa fa-check-circle"></i> Update</button>
+                                                <button type="button" class="btn btn-secondary" onclick="shower(2)"><i class="fa fa-times-circle"></i> Cancel</button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-content tab-bordered" id="tab2" style="display: none;">
+                                <div class="tab-pane fade active mytabs" id="show2" role="tabpanel" aria-labelledby="home-tab2">
+
+                                    <form method="post" class="" id="editPasswordForm">
+                                        <div class="card-header">
+                                            <h4>Edit Password</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-4 col-xs-12">
+                                                    <div class="form-group">
+                                                        <label for="password" class="d-block">Old Password</label>
+                                                        <input id="password" type="password" class="form-control pwstrength" data-indicator="pwindicator"
+                                                               name="current_password">
+                                                        <div id="pwindicator" class="pwindicator">
+                                                            <div class="bar"></div>
+                                                            <div class="label"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 col-xs-12">
+                                                    <div class="form-group">
+                                                        <label for="password" class="d-block">New Password</label>
+                                                        <input id="password" type="password" class="form-control pwstrength" data-indicator="pwindicator"
+                                                               name="new_password">
+                                                        <div id="pwindicator" class="pwindicator">
+                                                            <div class="bar"></div>
+                                                            <div class="label"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 col-xs-12">
+                                                    <div class="form-group">
+                                                        <label for="password2" class="d-block">Confirm Password</label>
+                                                        <input id="password2" type="password" class="form-control" name="confirm_password">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer text-right">
+                                            <button class="btn btn-primary" id="updatePwdBtn"><i class="fa fa-check-circle"></i> Update Password</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" class="huser-name" id="prev-name" value="" />
+        </section>
+    </div>
+</div>
+
+<!-- MODALS -->
+<input type="hidden" id="uid">
+<div class="modal fade" id="changePictureModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModal"><i class="fa fa-image"></i> Change Profile Picture</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editProfileForm">
+                    <input type="hidden" id="editId">
+                    <!-- row starts -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Select Picture</label>
+                                <input type="file" id="file" name="file" onchange="image_validation(event, this)" class="form-control" required="">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- row ends -->
+                    <!-- row starts -->
+                    <div class="progress mb-3" id="progess_section" style="display: none;">
+                        <div class="progress-bar" role="progressbar" id="bar" data-width="0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">0%</div>
+                    </div>
+                    <!-- row ends -->
+                    <button type="submit" id="editPictureBtn" class="btn btn-primary m-t-15 waves-effect pull-right"><i class="fa fa-check-circle"></i> Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ------------------------------------------------------------->
+
+
+<script type="text/javascript">
+    $('#myProfile').addClass('active');
+    function changePictureModal() {
+        $('#changePictureModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+
+    function change_tab(type) {
+        $(".mytabs").removeClass('show');
+        if (type == 1) {
+            $("#show1").addClass('show');
+            $("#tab1").show();
+            $("#tab2").hide();
+        }
+        else if (type == 2) {
+            $("#show2").addClass('show');
+            $("#tab1").hide();
+            $("#tab2").show();
+        }
+    }
+
+    function shower(type) {
+        if (type == 1) {
+            $("#closer").show();
+            $("#shower").hide();
+            $("#editBasicForm").find('input').attr('disabled', false);
+        }
+        else {
+            $("#editBasicForm").find('input').attr('disabled', true);
+            $("#closer").hide();
+            $("#shower").show();
+        }
+    }
+
+    function image_validation(event, elem) {
+        var file = event.target.files[0];
+        var fileType = file["type"];
+        var validImageTypes = ["image/jpeg", "image/png"];
+        if ($.inArray(fileType, validImageTypes) < 0) {
+            sweetMessage("Warning!", "Invalid file selected", "error", 5000);
+            $("#file").val('');
+        }
+        else if (file.size > 2000000) {
+            sweetMessage("Warning!", "File size must be 2 mb or less", "error", 5000);
+            $("#file").val('');
+        }
+    }
+</script>
+<script>
+    $('#editProfileForm').submit(function (e) {
+        e.preventDefault();
+        var file = $('#file').val();
+        if (file != "") {
+            var response;
+            var form = new FormData(document.getElementById('editProfileForm'));
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/Dashboard/UpdateProfileImage',
+                data: form,
+                async: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    response = data;
+                    if (response.code == 200) {
+                        var data = response.result;
+                        $('.UserName').html(data.fullName);
+                        $('#UserName').val(data.fullName);
+                        $('.imageUrl').attr('src', data.profileImageUrl);
+                        $('#EmailUserId').html(data.email);
+                        $('#changePictureModal').modal("hide");
+                    }
+                    else {
+                        sweetMessage("Error!", response.msg, "error");
+                    }
+                    console.log(data);
+                },
+                error: function (error) {
+                    return error;
+                },
+            });
+        }
+    })
+
+    $('#editBasicForm').submit(function (e) {
+        e.preventDefault();
+        var UserName = $('#UserName').val();
+        var response = getResponseFromUrl('GET', '/Admin/Dashboard/UpdateProfile?Name=' + UserName, null, false);
+        if (response.code == 200) {
+            TimerSweet("Profile Updated!", 'Profile is successfully updated', "success", 2000);
+            GetProfile();
+        }
+        else {
+            sweetMessage("Error!", response.msg, "error");
+        }
+    })
+    $('#editPasswordForm').submit(function (e) {
+        e.preventDefault();
+        var form = new FormData(document.getElementById('editPasswordForm'));
+        var response = getResponseFromUrl('POST', '/Admin/Dashboard/ChangePassword', form, true);
+        if (response.code == 200) {
+            TimerSweet("Password Updated!", 'Passsword is successfully updated', "success", 2000);
+            GetProfile();
+            document.getElementById('editPasswordForm').reset();
+        }
+        else {
+            console.log(response);
+            sweetMessage("Error!", response.shortMessage + "<br>" + response.result, "error");
+        }
+    })
+</script>
+
+<!--Ajax-->
+<script>
+    var getResponseFromUrl = function (requestType, requestUrl, requestData, async) {
+        var response;
+        $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                response = data;
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+        return response;
+    }
+</script>
+<!------------------------------------------------------------>
