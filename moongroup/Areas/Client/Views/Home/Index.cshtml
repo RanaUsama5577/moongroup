@@ -27,25 +27,36 @@
                                 <h3>
                                     @i.Year @i.ApplicaitonName
                                 </h3>
-                                <div class="badge badge-shadow badge-warning">
-                                    <i class="fas fa-sync-alt"></i>
-                                    @if (i.Status == Entities.Enum.ApplicationStatus.Pending)
-                                    {
+                                @if (i.Status == Entities.Enum.ApplicationStatus.Pending)
+                                {
+                                    <div class="badge badge-shadow badge-warning">
+                                        <i class="fas fa-sync-alt"></i>
                                         <span>Pending</span>
-                                    }
-                                    else if (i.Status == Entities.Enum.ApplicationStatus.InProgress)
-                                    {
+                                    </div>
+
+                                }
+                                else if (i.Status == Entities.Enum.ApplicationStatus.InProgress)
+                                {
+                                    <div class="badge badge-shadow badge-primary">
+                                        <i class="fas fa-clock"></i>
                                         <span>In Progress</span>
-                                    }
-                                    else if (i.Status == Entities.Enum.ApplicationStatus.Canceled)
-                                    {
-                                        <span>Canceled</span>
-                                    }
-                                    else if (i.Status == Entities.Enum.ApplicationStatus.Completed)
-                                    {
-                                        <span>Completed</span>
-                                    }
-                                </div>
+                                    </div>
+                                }
+                                else if (i.Status == Entities.Enum.ApplicationStatus.Canceled)
+                                {
+                            <div class="badge badge-shadow badge-danger">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>Canceled</span>
+                            </div>
+                                }
+                                else if (i.Status == Entities.Enum.ApplicationStatus.Completed)
+                                {
+                            <div class="badge badge-shadow badge-success">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Completed</span>
+                            </div>
+                                }
+
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -86,7 +97,7 @@
                                                 <h3 style="display: inline-block;font-size: 17px;font-weight: 700;">
                                                     Open Tasks
                                                 </h3>
-                                                <i class="fas fa-chevron-up ml-1"></i>
+                                                <a onclick="GetOpenTask(this)"><i class="fas fa-chevron-up ml-1"></i></a>
                                             </div>
                                             @foreach (var a in i.ApplicationType)
                                             {
@@ -96,18 +107,18 @@
                                                 }
                                                 else
                                                 {
-                                        <div class="task-btn">
-                                            @if (a.Status == Entities.Enum.ProjectSettingStatus.InProgress)
-                                            {
-                                                <i class="far fa-circle" style="color: #15baec;"></i>
-                                                <span>Complete @a.Name Section</span>
-                                            }
-                                            else
-                                            {
-                                                <i class="far fa-check-circle" style="color: #86ec15;"></i>
-                                                <span> @a.Name Section Completed</span>
-                                            }
-                                        </div>
+                                                    <div class="task-btn">
+                                                        @if (a.Status == Entities.Enum.ProjectSettingStatus.InProgress)
+                                                        {
+                                                            <i class="far fa-circle" style="color: #15baec;"></i>
+                                                            <span>Complete @a.Name Section</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="far fa-check-circle" style="color: #86ec15;"></i>
+                                                            <span> @a.Name Section Completed</span>
+                                                        }
+                                                    </div>
                                                 }
                                             }
                                         </div>
@@ -193,5 +204,9 @@
         catch (err) {
             console.log(err);
         }
+    }
+    function GetOpenTask(element) {
+        $(element).parent('div').parent('div').find('.task-btn').toggle();
+        $(element).find('i').toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
     }
 </script>

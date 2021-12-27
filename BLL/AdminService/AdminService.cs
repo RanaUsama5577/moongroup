@@ -248,10 +248,10 @@ namespace BLL.AdminService
             AdminDashboard a = new AdminDashboard
             {
                 TotalUsers = db.Users.Where(p => p.Status == EntityStatus.Active && p.Type == UserType.User && p.CompanyId == Id).Count(),
-                CanceledApps = 0,
-                CompletedApps = 0,
-                InprogressApps = 0,
-                PendingApps = 0,
+                CanceledApps = db.UserProjects.Where(p=>p.Status == ApplicationStatus.Canceled).Count(),
+                CompletedApps = db.UserProjects.Where(p => p.Status == ApplicationStatus.Completed).Count(),
+                InprogressApps = db.UserProjects.Where(p => p.Status == ApplicationStatus.InProgress).Count(),
+                PendingApps = db.UserProjects.Where(p => p.Status == ApplicationStatus.Pending).Count(),
             };
             return a;
         }

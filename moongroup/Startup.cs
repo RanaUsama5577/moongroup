@@ -141,7 +141,7 @@ namespace moongroup
                 endpoints.MapAreaControllerRoute(
                     name: "SuperAdmin",
                     areaName: "SuperAdmin",
-                    pattern: "SuperAdmin/{controller=Dashboard}/{action=Index}");
+                    pattern: "SuperAdmin/{controller=Account}/{action=Login}");
                 endpoints.MapRazorPages();
             });
 

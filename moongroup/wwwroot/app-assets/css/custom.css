@@ -836,7 +836,7 @@ table.dataTable img {
     border: none !important;
     transition: all 0.2s ease 0s !important;
     cursor: pointer !important;
-    display: block !important;
+    /*display: block !important;*/
     width: 100% !important;
     text-align: left !important;
     border-radius: 1px !important;
