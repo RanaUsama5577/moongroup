@@ -40,7 +40,6 @@ namespace moongroup.Controllers
 
         public IActionResult Login()
         {
-
             return View();
         }
 
@@ -135,7 +134,7 @@ namespace moongroup.Controllers
             ViewBag.ReturnUrl = returnUrl;
             if (TempData["Message"] != null)
             {
-                ViewBag.Message = "Success";
+                ViewBag.Message = TempData["Message"].ToString();
             }
             return View();
         }
@@ -154,7 +153,7 @@ namespace moongroup.Controllers
                 var data = await RenderToString("PartialForgotPassword", link);
                 var s = SendVerificationLinkEmail("ubf5577@gmail.com", data);
                 response.ShortMessage = s;
-                TempData["Message"] = "Success";
+                TempData["Message"] = "s";
                 return RedirectToAction("ForgotPassword","Home");
             }
             else

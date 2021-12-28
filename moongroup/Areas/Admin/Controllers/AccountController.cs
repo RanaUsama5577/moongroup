@@ -84,7 +84,7 @@ namespace moongroup.Areas.Admin.Controllers
             ViewBag.ReturnUrl = returnUrl;
             if (TempData["Message"] != null)
             {
-                ViewBag.Message = "Success";
+                ViewBag.Message = TempData["Message"].ToString();
             }
             return View();
         }
