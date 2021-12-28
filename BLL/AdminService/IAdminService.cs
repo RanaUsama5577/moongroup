@@ -1,6 +1,7 @@
 ﻿using DAL;
 using Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace BLL.AdminService
     {
         List<ClientProfileDtos> GetUsers();
         Task<ResponseDto> SignUpUser(RegisterUser SignUpUser);
+        Task<ResponseDto> ForgotPassword([FromForm] ForgotPasswordVMS model);
+        Task<ResponseDto> ResetPassword([FromForm] ResetPasswordVMS model);
         List<UsersProfileDtos> GetAppUsers(string Id);
 
         List<ProjectsVms> UserProjects(string Id);

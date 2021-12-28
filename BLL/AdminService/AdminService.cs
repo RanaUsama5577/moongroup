@@ -19,6 +19,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using static Entities.Enum;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -350,6 +351,52 @@ namespace BLL.AdminService
             {
                 return JsonResponse2(501, ex.GetBaseException().Message, null);
             }
+        }
+
+        async Task<ResponseDto> IAdminService.ForgotPassword([FromForm] ForgotPasswordVMS model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = db.Users.Where(p => p.Email == model.Email).FirstOrDefault();
+                if (user == null)
+                {
+                    return JsonResponse2(401, "User doesn't exists", null);
+                }
+                var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                token = HttpUtility.UrlEncode(token);
+                return JsonResponse2(200, token, null);
+            }
+            // If we got this far, something failed, redisplay form
+            return JsonResponse2(400, "error", null);
+        }
+        async Task<ResponseDto> IAdminService.ResetPassword([FromForm] ResetPasswordVMS model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = db.Users.Where(p => p.Email == model.Email).FirstOrDefault();
+                if (user == null)
+                {
+                    return JsonResponse2(401, "User doesn't exists", null);
+                }
+                //var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await userManager.ResetPasswordAsync(user, model.Code, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    return JsonResponse2(200, "Success , Password Changed Successfully", null);
+                }
+                else
+                {
+                    List<string> errorList = new List<string>();
+                    foreach (var error in result.Errors)
+                    {
+                        errorList.Add(error.Description);
+                    }
+                    return JsonResponse2(401, "Validation Error", errorList);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return JsonResponse2(400, "error", null);
         }
         public ApplicationUser UpdateProfileImage(string ImageUrl, string Id)
         {
