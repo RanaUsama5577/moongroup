@@ -118,7 +118,7 @@
                                         <th>Application Type</th>
                                         <th>Answers</th>
                                         <th>Documents</th>
-                                        <th>Add Invoices</th>
+                                        <th>Invoices</th>
                                         <th>Created At</th>
                                         <th>Status</th>
                                         <th>Action</th>
@@ -149,7 +149,7 @@
                                             <a target="_blank" href="@Url.Action("ProjectDocuments","SubmittedApplications",new { Id=i.ProjectId})" style="color: #fff;" class="btn btn-info badge-shadow"><i class="fas fa-eye"></i></a>
                                         </td>
                                         <td>
-                                            <a target="_blank" style="color: #fff;" href="@Url.Action("ProjectInvoices","SubmittedApplications",new { Id=i.ProjectId})" class="btn btn-info  badge-shadow">Add Invoices</a>
+                                            <a target="_blank" style="color: #fff;" href="@Url.Action("ProjectInvoices","SubmittedApplications",new { Id=i.ProjectId})" class="btn btn-info  badge-shadow"><i class="fa fa-dollar-sign"></i></a>
                                         </td>
                                         <td>@i.CreatedAt</td>
                                         <td> <span class="badge rounded-pill  badge-light-info">Pending</span></td>
@@ -213,7 +213,7 @@
                                         <a target="_blank" href="@Url.Action("ProjectDocuments","SubmittedApplications",new { Id=i.ProjectId})" style="color: #fff;" class="btn btn-info badge-shadow"><i class="fas fa-eye"></i></a>
                                     </td>
                                     <td>
-                                        -
+                                        <a target="_blank" style="color: #fff;" href="@Url.Action("ProjectInvoices","SubmittedApplications",new { Id=i.ProjectId})" class="btn btn-info  badge-shadow"><i class="fa fa-dollar-sign"></i></a>
                                     </td>
                                     <td>@i.CreatedAt</td>
                                     <td> <span class="badge rounded-pill  badge-light-danger">Canceled</span></td>
@@ -243,7 +243,7 @@
                                         <a target="_blank" href="@Url.Action("ProjectDocuments","SubmittedApplications",new { Id=i.ProjectId})" style="color: #fff;" class="btn btn-info badge-shadow"><i class="fas fa-eye"></i></a>
                                     </td>
                                     <td>
-                                        -
+                                        <a target="_blank" style="color: #fff;" href="@Url.Action("ProjectInvoices","SubmittedApplications",new { Id=i.ProjectId})" class="btn btn-info  badge-shadow"><i class="fa fa-dollar-sign"></i></a>
                                     </td>
                                     <td>@i.CreatedAt</td>
                                     <td> <span class="badge rounded-pill  badge-light-success">Completed</span></td>

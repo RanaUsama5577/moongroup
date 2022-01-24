@@ -84,6 +84,7 @@ namespace moongroup.Controllers
         [Route("/Invite/{companyId}")]
         public IActionResult Register(string companyId)
         {
+            ViewBag.companyId = companyId;
             var get = admin.ShowApplicationsForCompany(companyId);
             if(get.Code == 200)
             {
@@ -97,22 +98,17 @@ namespace moongroup.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [Route("/Invite/{companyId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterUser user, string returnUrl)
         {
             if (ModelState.IsValid)
             {
                 var response = await admin.SignUpUser(user);
+                var response2 = await admin.Logout();
                 if (response.Code == 200)
                 {
-                    if (returnUrl != null)
-                    {
-                        return Redirect(returnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home", new { area = "Client" });
-                    }
+                    return RedirectToAction("Login", "Home");
                 }
                 else
                 {
@@ -124,6 +120,7 @@ namespace moongroup.Controllers
                                    .SelectMany(v => v.Errors)
                                    .Select(e => e.ErrorMessage));
             ViewBag.Applications = new SelectList(admin.ShowApplications().ToList(), "Id", "Name");
+            ViewBag.companyId = user.companyId;
             ModelState.AddModelError("", message);
             return View(user);
 

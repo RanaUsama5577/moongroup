@@ -24,6 +24,7 @@
     <!-- Custom Stylesheet -->
     <link type="text/css" rel="stylesheet" href="/login-assets/css/style.css">
     <link rel="stylesheet" type="text/css" id="style_sheet" href="/login-assets/css/skins/default.css">
+    <link href="~/app-assets/css/pwd_strength.css" rel="stylesheet" />
 </head>
 <body id="top">
     <!-- End Google Tag Manager (noscript) -->
@@ -40,15 +41,16 @@
                         </div>
                         <h3>Welcome to our secure portal</h3>
                         <p>
-                            Ours is an online platform used to easily and securely share information with your tax preparer.
+                            Our online platform is a secure way for you to share information and communicate with your tax preparer.
                         </p>
                         <p>
-                            You're one step away from working with your tax preparer entirely online, but first you need to set a password for your account. This will allow you to get back to your account later by logging in to our portal with your email address.
+                            You’re one step away from working with your preparer. If this is your first time here, please register for an account
+                            to get started. If you are a returning user, click log in and you are on your way
                         </p>
                     </div>
                 </div>
                 <div class="col-lg-5 col-md-12">
-                   
+
                 </div>
                 <div class="col-lg-7 col-md-12 col-pad-0 form-section">
                     <div class="login-inner-form">
@@ -61,6 +63,7 @@
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <input type="hidden" id="companyId" name="companyId" value="@ViewBag.companyId" />
                                 <div class="form-group form-box">
                                     <label>
                                         Email
@@ -83,25 +86,29 @@
                                     <label>
                                         Landline Number
                                     </label>
-                                    <input type="text" name="PhoneNumber" class="form-control" placeholder="Enter Landline">
+                                    <input type="number" name="PhoneNumber" class="form-control phoneNumber" placeholder="(xxx)xxx-xxxx">
                                 </div>
                                 <div class="form-group form-box">
                                     <label>
                                         Mobile number
                                     </label>
-                                    <input type="text" name="MobileNumber" class="form-control" placeholder="Enter Mobile Number">
+                                    <input type="number" name="MobileNumber" class="form-control phoneNumber" placeholder="(xxx)xxx-xxxx">
                                 </div>
                                 <div class="form-group form-box">
                                     <label>
                                         Work Number
                                     </label>
-                                    <input type="text" name="WorkNumber" class="form-control" placeholder="Enter Work Number">
+                                    <input type="number" name="WorkNumber" class="form-control phoneNumber" placeholder="(xxx)xxx-xxxx">
                                 </div>
                                 <div class="form-group form-box">
                                     <label>
                                         Password
                                     </label>
-                                    <input type="password" name="Password" class="form-control" autocomplete="new-password" placeholder="Enter Password" aria-label="Password">
+                                    <input type="password" name="Password" data-indicator="pwindicator" class="form-control pwstrength" autocomplete="new-password" placeholder="Enter Password" aria-label="Password">
+                                    <div id="pwindicator" class="pwindicator">
+                                        <div class="bar"></div>
+                                        <div class="label"></div>
+                                    </div>
                                 </div>
                                 <div class="form-group form-box">
                                     <label>
@@ -152,6 +159,18 @@
     <script src="/login-assets/js/jquery.min.js"></script>
     <script src="/login-assets/js/popper.min.js"></script>
     <script src="/login-assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/app-assets/js/pwtstrength.min.js"></script>
+    <script src="~/cleave-js/dist/cleave.min.js"></script>
+    <script src="~/cleave-js/dist/addons/cleave-phone.us.js"></script>
+    <script>
+        $(function () {
+            $(".pwstrength").pwstrength();
+            var cleavePN = new Cleave('.phoneNumber', {
+                phone: true,
+                phoneRegionCode: 'us'
+            });
+        })
+    </script>
     <!-- Custom JS Script -->
 </body>
 </html>

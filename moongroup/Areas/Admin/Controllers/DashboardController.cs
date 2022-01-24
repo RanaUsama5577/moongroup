@@ -104,7 +104,25 @@ namespace moongroup.Areas.Admin.Controllers
             return JsonResponse(200, "success", profile);
         }
 
+        public async Task<JsonResult> DeleteDocument(int Id)
+        {
+            var res = admin.DeleteDocument(Id);
+            var list = (List<string>)res.Result;
+            foreach (var i in list)
+            {
+                var s = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/Images/" + i);
+                FileInfo file = new FileInfo(s);
+                if (file.Exists)
+                {
+                    file.Delete();
+                }
+                else
+                {
 
+                }
+            }
+            return Json(res);
+        }
 
         public IActionResult MyProfile()
         {

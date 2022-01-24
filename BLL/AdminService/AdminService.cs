@@ -68,6 +68,7 @@ namespace BLL.AdminService
                     return JsonResponse2(400, "application not found", null);
                 }
                 var imageUrl = "";
+                var company = db.Users.Where(p=>p.UserName == SignUpUser.companyId).FirstOrDefault();
                 ApplicationUser newUser = new ApplicationUser
                 {
                     Email = SignUpUser.Email,
@@ -84,7 +85,7 @@ namespace BLL.AdminService
                     Status = EntityStatus.Active,
                     Type = UserType.User,
                     ProfileImageUrl = imageUrl,
-                    CompanyId = "8e514976-2bdd-46e9-a263-613f4a227bea",
+                    CompanyId = company.Id,
                     CreatedAt  =currentTime,
                     UpdatedAt = currentTime,
                 };
@@ -129,7 +130,10 @@ namespace BLL.AdminService
                         db.ProjectsSettings.Add(projectsSettings);
                     }
                     db.SaveChanges();
-
+                    var ident = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("Id", newUser.Id)
+                    });
                     return JsonResponse2(200, "success", null);
                 }
                 else

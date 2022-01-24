@@ -132,9 +132,7 @@ namespace Entities
         public string LastName { get; set; }
         [Required(ErrorMessage = "Mobile Number is required")]
         public string MobileNumber { get; set; }
-        [Required(ErrorMessage = "Work Number is required")]
         public string WorkNumber { get; set; }
-        [Required(ErrorMessage = "Phone Number is required")]
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
@@ -143,6 +141,7 @@ namespace Entities
         public string ConfirmPassword { get; set; }
         [Required(ErrorMessage = "Year is required")]
         public string Year { get; set; }
+        public string companyId { get; set; }
         [Required(ErrorMessage = "Application Id is required")]
         public int ApplicationId { get; set; }
     }

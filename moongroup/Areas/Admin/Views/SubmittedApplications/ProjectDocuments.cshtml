@@ -145,7 +145,7 @@
             showLoaderOnConfirm: true,
             preConfirm: (ref) => {
                 return new Promise(async function (resolve, reject) {
-                    var response = await getResponseFromUrl("Get", "@Url.Action("DeleteDocument", "Home")?Id=" + Id, null);
+                    var response = await getResponseFromUrl("Get", "@Url.Action("DeleteDocument", "Dashboard")?Id=" + Id, null);
                     if (response.code == 200) {
                         var result = response.result;
                         console.log(result);

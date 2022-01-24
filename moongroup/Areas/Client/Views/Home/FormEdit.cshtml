@@ -7,6 +7,9 @@
         font-size: 14px;
         font-weight: 900;
     }
+    .groupFieldEnd {
+        border-bottom: 1px solid #667169;
+    }
 </style>
 <div class="content-body" style="padding: 58px 28px;">
     <section>
@@ -130,9 +133,9 @@
     <!--Radio-->
     <!--Group Field-->
     <div class="col-md-12" id="GroupField" style="display: none;">
-        <div class="mb-5 mt-2" style="width: 100%; border-bottom: 1px solid #667169;">
+        <div class="mb-5 mt-2" style="width: 100%; ">
             <div id="GroupAcc" class="">
-                <span id="FieldName">Basic Personal Information</span>
+                <span id="FieldName" style="font-weight:bold;">Basic Personal Information</span>
                 <span id="GFieldRequirement" class="" style="display: block;font-size: 10px;">
 
                 </span>
@@ -188,7 +191,7 @@
                 var result = GetFields(data.sectionFields,0,0);
                 $('#ShowForms').html(result);
                 setTimeout(function () {
-                    new Cleave($('.ssn'), { blocks: [3, 3, 3], uppercase: !0 });
+                    new Cleave($('.ssn'), { blocks: [3, 3, 4], uppercase: !0 });
                     $('.form-password-toggle .input-group-text').on('click', function (e) {
                         e.preventDefault();
                         var a = $(this);
@@ -364,6 +367,12 @@
                 clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
                 //clone.first().find('#GFieldRequirement').html("<span>Group Field</span>");
                 var options = GetFields(item.groupFields, 7, item.id);
+                if (options.length > 0) {
+                    clone.find('.mb-5').addClass('groupFieldEnd');
+                }
+                else {
+                    clone.find('.mb-5').removeClass('mb-5').addClass('mb-1');
+                }
                 clone.first().find('#fieldValue').html(options);
 
                 //var nameTrim = item.name.replace(/\s/g, '') + "-";
