@@ -194,7 +194,7 @@
             showLoaderOnConfirm: true,
             preConfirm: (ref) => {
                 return new Promise(async function (resolve, reject) {
-                    var response = getResponseFromUrl('GET', '/SuperAdmin/Users/BlockUser?id=' + doc_id);
+                    var response = getResponseFromUrl('GET', '/Admin/Users/BlockUser?id=' + doc_id);
                     if (response.code == 200) {
                         TimerSweet("Client Blocked!", 'Client is successfully blocked', "success", 2000);
                         setTimeout(function () {
@@ -225,7 +225,7 @@
             showLoaderOnConfirm: true,
             preConfirm: (ref) => {
                 return new Promise(async function (resolve, reject) {
-                    var response = getResponseFromUrl('GET', '/SuperAdmin/Users/UnBlockUser?id=' + doc_id);
+                    var response = getResponseFromUrl('GET', '/Admin/Users/UnBlockUser?id=' + doc_id);
                     if (response.code == 200) {
                         TimerSweet("Client Unblocked!", 'Client is successfully unblocked', "success", 2000);
                         setTimeout(function () {

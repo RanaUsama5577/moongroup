@@ -130,11 +130,11 @@
                                             </h4>
                                         </div>
                                         <div class="mb-3">
-                                            <img src="@i.Image" class="float-left" style="width: 70px; height: 70px; border-radius: 54px; ">
+                                            <img src="/default-user-icon-4.jpg" class="float-left" style="width: 70px; height: 70px; border-radius: 54px; ">
                                             <div class="" style="margin-left: 6rem !important;">
-                                                <h4 style="font-size: 19px;font-weight: 800;color: #0d0d0c;">@i.PersonName</h4>
+                                                <h4 style="font-size: 19px;font-weight: 800;color: #0d0d0c;">@*@i.PersonName*@ Demo User</h4>
                                                 <p style="font-size:13px;font-weight: 800;color: #0d0d0c;">
-                                                    @i.CompanyName
+                                                    @*@i.CompanyName*@ Demo Company
                                                 </p>
                                             </div>
                                         </div>
@@ -145,20 +145,20 @@
                                                     @i.Phone
                                                 </p>
                                                 <p>
-                                                    <i class="fas fa-envelope mr-2" style="color: #15baec;"></i> @i.Email
+                                                    <i class="fas fa-envelope mr-2" style="color: #15baec;"></i> @*@i.Email*@ admin@company.com
                                                 </p>
                                             </div>
                                         </div>
                                         <div>
                                             <h3 class="mb-3" style="font-size: 17px;font-weight: 700;">
-                                                REFER @i.PersonName
+                                                REFER @*@i.PersonName*@ Demo User
                                             </h3>
                                             <h2 style="font-size: 23px;font-weight: 700;">
                                                 Share your referral link:
                                             </h2>
-                                            <p>
-                                                <span id="p-@i.ProjectId">https://dedramoon.assortcloud.com/invite/@i.UserName</span><i onclick="CopyMe(this)" data-id="p-@i.ProjectId" class="fas fa-copy ml-1" style="color: #15baec;cursor:pointer;"></i>
-                                            </p>
+                                            @*<p>
+                                                <span id="p-@i.ProjectId">https://localhost/invite/company</span><i onclick="CopyMe(this)" data-id="p-@i.ProjectId" class="fas fa-copy ml-1" style="color: #15baec;cursor:pointer;"></i>
+                                            </p>*@
                                         </div>
                                     </div>
                                 </div>

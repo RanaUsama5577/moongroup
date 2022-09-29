@@ -1,0 +1,1634 @@
+﻿
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_Admin.cshtml";
+}
+<style>
+    .nav-tabs .nav-link.active:after {
+        background: none;
+    }
+</style>
+<!-- Pick Date -->
+<link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/pickers/pickadate/pickadate.css">
+<link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/forms/pickers/form-flat-pickr.min.css">
+<link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/forms/pickers/form-pickadate.min.css">
+<!-- Horizontal Wizard -->
+<link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+<link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/select/select2.min.css">
+<link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/forms/form-validation.css">
+<link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/forms/form-wizard.min.css">
+
+
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">Configure Applications</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol id="ol-breadcrumb" class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("Index","Dashboard")">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="@Url.Action("Index","ConfigureInterview")">Configure Applications</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-body">
+    <!-- Accordion with shadow start -->
+    <section id="accordion-with-shadow">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="accordionWrapa10" role="tablist" aria-multiselectable="true">
+                    <div class="card collapse-icon">
+                        <div class="card-header">
+                            <h6 style="display:inline-block;" class="mb-0 card-title">Sections</h6>
+                            <div style="margin: auto;float: right;margin-right: .5rem !important;display: inline !important;">
+                                <button onclick="showAddNewSectionModal()" class="btn btn-primary waves-effect waves-float waves-light">
+                                    Add New Section
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="collapse-margin" id="sectionAppend">
+                                @* section 1 *@
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Accordion with Shadow end -->
+</div>
+
+<div style="display:none;" class="content-body">
+    <!-- Accordion with shadow start -->
+    <section id="accordion-with-shadow">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="accordionWrapa10" role="tablist" aria-multiselectable="true">
+                    <div class="card collapse-icon">
+                        <div class="card-header">
+                            <h6 style="display:inline-block;" class="mb-0 card-title">Sections</h6>
+                            <div style="margin: auto;float: right;margin-right: .5rem !important;display: inline !important;">
+                                <button onclick="showAddNewSectionModal()" class="btn btn-primary waves-effect waves-float waves-light">
+                                    Add New Section
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="collapse-margin">
+                                <span style="float:right;font-size: 16px;margin-bottom:6px;">
+                                    <a class="btn btn-primary" onclick="showAddNewSectionModal()" href="#" style="padding: 9px 9px;background-color: #01db6d !important;border-color: #ffffff !important;">
+                                        <i class="fas fa-pencil-alt" style="font-size: 14px;"></i>
+                                    </a>
+                                    <a class="btn btn-danger" style="cursor:pointer;padding: 9px 9px;" onclick="DeleteCategory()">
+                                        <i class="fa fa-trash" style="font-size: 14px;"></i>
+                                    </a>
+                                    <a class="btn btn-warning" onclick="showAddNewFieldModal()" href="#" style="padding: 10px 10px;font-size: 11px;">Add New Field</a>
+                                </span>
+                                <div class="card" style="width:100%">
+                                    <div id="heading11" class="card-header" data-toggle="collapse" role="button" data-target="#accordion10" aria-expanded="false" aria-controls="accordion10">
+                                        <span class="lead collapse-title" style="width:100%">
+                                            Basic Personal Information
+                                            <span class="" style="display: block;font-size: 10px;">
+                                                Subtitle
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div id="accordion10" role="tabpanel" data-parent="#accordionWrapa10" aria-labelledby="heading11" class="collapse">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="form-group col-md-6">
+                                                    <label class="form-label" for="vertical-username" style="width:100%">
+                                                        Taxpayer Date of Birth
+                                                        <span class="pull-right" style="float:right;">
+                                                            <a onclick="showAddNewFieldModal()" href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                            <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                        </span>
+                                                    </label>
+                                                    <input type="date" id="vertical-username" class="form-control" placeholder="Enter date" />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="form-label" for="vertical-email" style="width:100%">
+                                                        Taxpayer SSN/Taxpayer ID Number
+                                                        <span class="pull-right" style="float:right;">
+                                                            <a onclick="showAddNewFieldModal()" href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                            <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" id="vertical-email" class="form-control" placeholder="Enter SSN" aria-label="john.doe" />
+                                                </div>
+                                                <div class="form-group form-password-toggle col-md-6">
+                                                    <label class="form-label" for="vertical-password" style="width:100%">
+                                                        Address
+                                                        <span class="pull-right" style="float:right;">
+                                                            <a onclick="showAddNewFieldModal()" href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                            <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                        </span>
+                                                    </label>
+                                                    <textarea class="form-control" rows="2"></textarea>
+                                                </div>
+                                                <div class="form-group form-password-toggle col-md-6">
+                                                    <label class="form-label" for="vertical-confirm-password" style="width:100%">
+                                                        Street Address
+                                                        <span class="pull-right" style="float:right;">
+                                                            <a onclick="showAddNewFieldModal()" href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                            <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                        </span>
+                                                    </label>
+                                                    <textarea class="form-control" rows="2"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span style="float:right;font-size: 16px;margin-bottom:6px;">
+                                    <a class="btn btn-primary" onclick="showAddNewSectionModal()" href="#" style="padding: 9px 9px;background-color: #01db6d !important;border-color: #ffffff !important;">
+                                        <i class="fas fa-pencil-alt" style="font-size: 14px;"></i>
+                                    </a>
+                                    <a class="btn btn-danger" style="cursor:pointer;padding: 9px 9px;" onclick="DeleteCategory()">
+                                        <i class="fa fa-trash" style="font-size: 14px;"></i>
+                                    </a>
+                                    <a class="btn btn-warning" onclick="showAddNewFieldModal()" href="#" style="padding: 10px 10px;font-size: 11px;">Add New Field</a>
+                                </span>
+                                <div class="card" style="width:100%">
+                                    <div id="heading30" class="card-header" data-toggle="collapse" role="button" data-target="#accordion30" aria-expanded="false" aria-controls="accordion30">
+                                        <span class="lead collapse-title" style="width:100%">
+                                            Sources of Income
+                                            <span class="" style="display: block;font-size: 10px;">
+                                                Subtitle
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div id="accordion30" role="tabpanel" data-parent="#accordionWrapa10" aria-labelledby="heading30" class="collapse" aria-expanded="false">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="form-group col-md-6">
+                                                    <label class="form-label" for="vertical-address" style="width:100%;">
+                                                        Did you or your spouse receive a W2 from an employer?:
+                                                        <span class="pull-right" style="float:right;">
+                                                            <a href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                            <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                            <a style="cursor:pointer" onclick="ShowFieldSetting()">
+                                                                <i class="fa fa-cogs text-warning"></i>
+                                                            </a>
+                                                        </span>
+                                                    </label>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="con-1" required="">
+                                                        <label class="custom-control-label" for="con-1"> Yes </label>
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="con-2" required="">
+                                                        <label class="custom-control-label" for="con-2">No</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="form-label" for="vertical-address" style="width:100%;">
+                                                        Check the symptoms that you're currently experiencing:
+                                                        <span class="pull-right" style="float:right;">
+                                                            <a href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                            <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                            <a style="cursor:pointer" onclick="ShowFieldSetting()">
+                                                                <i class="fa fa-cogs text-warning"></i>
+                                                            </a>
+                                                        </span>
+                                                    </label>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="con-1" required="">
+                                                        <label class="custom-control-label" for="con-1">Yes</label>
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="con-2" required="">
+                                                        <label class="custom-control-label" for="con-2">No</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="form-label" for="vertical-address" style="width:100%;">
+                                                        Did you earn any interest or dividends?
+                                                        <span class="pull-right" style="float:right;">
+                                                            <a href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                            <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                            <a style="cursor:pointer" onclick="ShowFieldSetting()">
+                                                                <i class="fa fa-cogs text-warning"></i>
+                                                            </a>
+                                                        </span>
+                                                    </label>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="med-1" required="">
+                                                        <label class="custom-control-label" for="med-1"> Yes </label>
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="med-2" required="">
+                                                        <label class="custom-control-label" for="med-2">No</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="form-label" for="vertical-address" style="width:100%;">
+                                                        Did you sell any investments (stocks, bonds, etc.)?
+                                                        <span class="pull-right" style="float:right;">
+                                                            <a href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                            <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                            <a style="cursor:pointer" onclick="ShowFieldSetting()">
+                                                                <i class="fa fa-cogs text-warning"></i>
+                                                            </a>
+                                                        </span>
+                                                    </label>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="aler-1" required="">
+                                                        <label class="custom-control-label" for="aler-1"> Yes </label>
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="aler-2" required="">
+                                                        <label class="custom-control-label" for="aler-2">No</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="form-label" for="vertical-address" style="width:100%;">
+                                                        Did you exercise stock options or have any vest?
+                                                        <span class="pull-right" style="float:right;">
+                                                            <a href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                            <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                            <a style="cursor:pointer" onclick="ShowFieldSetting()">
+                                                                <i class="fa fa-cogs text-warning"></i>
+                                                            </a>
+                                                        </span>
+                                                    </label>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="alco-1" required="">
+                                                        <label class="custom-control-label" for="alco-1">Yes</label>
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="alco-2" required="">
+                                                        <label class="custom-control-label" for="alco-2">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span style="float:right;font-size: 16px;margin-bottom:6px;">
+                                    <a class="btn btn-primary" onclick="showAddNewSectionModal()" href="#" style="padding: 9px 9px;background-color: #01db6d !important;border-color: #ffffff !important;">
+                                        <i class="fas fa-pencil-alt" style="font-size: 14px;"></i>
+                                    </a>
+                                    <a class="btn btn-danger" style="cursor:pointer;padding: 9px 9px;" onclick="DeleteCategory()">
+                                        <i class="fa fa-trash" style="font-size: 14px;"></i>
+                                    </a>
+                                    <a class="btn btn-warning" onclick="showAddNewFieldModal()" href="#" style="padding: 10px 10px;font-size: 11px;">Add New Field</a>
+                                </span>
+                                <div class="card" style="width:100%">
+                                    <div id="heading30" class="card-header" data-toggle="collapse" role="button" data-target="#accordion40" aria-expanded="false" aria-controls="accordion40">
+                                        <span class="lead collapse-title" style="width:100%">
+                                            Dependents
+                                            <span class="" style="display: block;font-size: 10px;">
+                                                Subtitle
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div id="accordion40" role="tabpanel" data-parent="#accordionWrapa10" aria-labelledby="accordion40" class="collapse" aria-expanded="false">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="card">
+                                                        <div class="card-header" style="justify-content: end;">
+                                                            <span class="pull-right" style="float:right;">
+                                                                <a href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                                <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                                <a style="cursor:pointer" onclick="showAddNewFieldModal()">
+                                                                    <i class="fa fa-cogs text-warning"></i>
+                                                                </a>
+                                                            </span>
+                                                        </div>
+                                                        <div class="card-body">
+
+                                                            <div id="accordionWrapa50" class="card-header" data-toggle="collapse" role="button" data-target="#accordion50" aria-expanded="false" aria-controls="accordion40">
+                                                                <span class="lead collapse-title" style="width:100%">
+                                                                    Add dependent
+                                                                </span>
+                                                            </div>
+                                                            <div id="accordion50" role="tabpanel" data-parent="#accordionWrapa50" aria-labelledby="accordion50" class="collapse" aria-expanded="false">
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-6">
+                                                                        <label class="form-label" for="vertical-username" style="width:100%">
+                                                                            Dependent Full Name
+                                                                            <span class="pull-right" style="float:right;">
+                                                                                <a onclick="showAddNewFieldModal()" href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                                                <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                                            </span>
+                                                                        </label>
+                                                                        <input type="text" id="vertical-username" class="form-control" placeholder="Enter fullname" />
+                                                                    </div>
+                                                                    <div class="form-group col-md-6">
+                                                                        <label class="form-label" for="vertical-email" style="width:100%">
+                                                                            Dependent SSN/Taxpayer ID Number
+                                                                            <span class="pull-right" style="float:right;">
+                                                                                <a onclick="showAddNewFieldModal()" href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                                                <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                                            </span>
+                                                                        </label>
+                                                                        <input type="text" id="vertical-email" class="form-control" placeholder="Enter SSN" aria-label="john.doe" />
+                                                                    </div>
+                                                                    <div class="form-group form-password-toggle col-md-6">
+                                                                        <label class="form-label" for="vertical-password" style="width:100%">
+                                                                            Address
+                                                                            <span class="pull-right" style="float:right;">
+                                                                                <a onclick="showAddNewFieldModal()" href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                                                <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                                            </span>
+                                                                        </label>
+                                                                        <textarea class="form-control" rows="2"></textarea>
+                                                                    </div>
+                                                                    <div class="form-group form-password-toggle col-md-6">
+                                                                        <label class="form-label" for="vertical-confirm-password" style="width:100%">
+                                                                            Street Address
+                                                                            <span class="pull-right" style="float:right;">
+                                                                                <a onclick="showAddNewFieldModal()" href="#"><i class="fas fa-pencil-alt text-inverse"></i></a>
+                                                                                <a style="cursor:pointer" onclick="DeleteCategory()"><i class="fa fa-trash text-danger"></i></a>
+                                                                            </span>
+                                                                        </label>
+                                                                        <textarea class="form-control" rows="2"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Accordion with Shadow end -->
+</div>
+
+
+<div class="modal fade" id="addNewSectionModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
+     aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSectionTitle"> Section </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="updateSectionId" />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="Name" class="form-control" required="" placeholder="Enter Section Title... ">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="section_is_required" required="">
+                                <label class="custom-control-label" for="section_is_required">Is Required</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="float:right">
+                    <button class="btn btn-danger m-t-15 waves-effect" data-dismiss="modal">Close</button>
+                    <button type="submit" onclick="AddSection()" id="add_section" class="btn btn-primary m-t-15 waves-effect">Save</button>
+                    <button type="submit" onclick="UpdateSection()" style="display:none;" id="edit_section" class="btn btn-primary m-t-15 waves-effect">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addNewFieldModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fieldSetting">Field Setting</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="sectionId" />
+                <input type="hidden" id="FieldId" />
+                <input type="hidden" id="FieldType" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Label</label>
+                            <input type="text" id="label" class="form-control" placeholder="Enter Field Label... ">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Helper Text</label>
+                            <input type="text" id="helperText" class="form-control" placeholder="Enter Field Label... ">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Placeholder</label>
+                            <input type="text" id="placeholder" class="form-control" placeholder="Enter Field Placeholder... ">
+                        </div>
+                    </div>
+                    <div class="col-md-6 updateFieldSection">
+                        <div class="form-group">
+                            <label>Select Type</label>
+                            <select onchange="ChangeSelectType()" id="select_field_type" class="form-control">
+                                <option selected disabled value="">Select Field Type</option>
+                                <option value="1">Text</option>
+                                <option value="2">Number</option>
+                                <option value="3">Textarea</option>
+                                <option value="4">Select</option>
+                                <option value="5">Checkbox</option>
+                                <option value="6">Radio</option>
+                                <option value="7">Password</option>
+                                <option value="8">GroupField</option>
+                                <option value="9">Is multiple section</option>
+                                <option value="10">Date Field</option>
+                                <option value="11">SSN Mask Field</option>
+                                <option value="12">Dollar Field</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display:none;" class="col-md-6 number_field">
+                        <div class="form-group">
+                            <label>Maximum</label>
+                            <input type="number" id="maximum" class="form-control" placeholder="Enter Maximum Value... ">
+                        </div>
+                    </div>
+                    <div style="display:none;" class="col-md-6 number_field">
+                        <div class="form-group">
+                            <label>Minimum</label>
+                            <input type="number" id="minimum" class="form-control" placeholder="Enter Minimum Value... ">
+                        </div>
+                    </div>
+                    <div style="display:none;" class="col-md-12 select_field">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="is_multiple" required="">
+                                <label class="custom-control-label" for="is_multiple">Is select multiple</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="is_required" required="">
+                                <label class="custom-control-label" for="is_required">Is Required </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="float:right">
+                    <button class="btn btn-danger m-t-15 waves-effect" data-dismiss="modal">Close</button>
+                    <button type="submit" onclick="AddField()" id="add_field_btn" class="btn btn-primary m-t-15 waves-effect">Save</button>
+                    <button type="submit" onclick="UpdateField()" id="update_field_btn" class="btn btn-primary m-t-15 waves-effect">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="optionFieldTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Text*</label>
+                            <input type="text" id="label2" class="form-control" placeholder="Enter Text">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Help Text</label>
+                            <input type="text" id="helpText2" class="form-control" placeholder="Enter Help Text">
+                        </div>
+                    </div>
+                </div>
+                <div style="float:right">
+                    <button style="display:none" onclick="ClearOptionModal()" class="updateOption btn btn-danger m-t-15 waves-effect">Cancel</button>
+                    <button type="submit" id="Parentfeildid" onclick="AddNewOptionInField(this)" class="addOption btn btn-primary m-t-15 waves-effect">Add New</button>
+                    <button style="display:none" type="submit" id="Optionfeildid" onclick="UpdateOptionInField(this)" class=" updateOption btn btn-primary m-t-15 waves-effect">Update Option</button>
+                </div>
+                <div style="margin-top:22px;" class="table-responsive">
+                    <table id="table-o" class="datatables-basic table">
+                        <thead>
+                            <tr>
+                                <th>Sr#</th>
+                                <th>Text</th>
+                                <th style="text-align:center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="feildOptionTable">
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BEGIN: Page Vendor JS-->
+<script src="/app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+<script src="/app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+<script src="/app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+<script src="/app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+<script src="/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+<!-- BEGIN: Page JS-->
+<script src="/app-assets/js/scripts/forms/pickers/form-pickers.min.js"></script>
+<!-- END: Page JS-->
+<!-- BEGIN: Page JS-->
+<script src="/app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+<script src="/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+<!-- BEGIN: Page JS-->
+<script src="/app-assets/js/scripts/forms/form-wizard.min.js"></script>
+<script src="/app-assets/vendors/js/forms/cleave/cleave.min.js"></script>
+
+@* Clone Section *@
+<div id="SectionClone" class="mt-2" style="display:none;">
+    <span style="float:right;font-size: 16px;margin-bottom:6px;">
+        <a class="btn btn-primary" id="editSection" onclick="showEditSectionModal(this)" style="padding: 9px 9px;background-color: #01db6d !important;border-color: #ffffff !important;">
+            <i class="fas fa-pencil-alt" style="font-size: 14px;"></i>
+        </a>
+        <a class="btn btn-danger" id="deleteSection" style="cursor:pointer;padding: 9px 9px;" onclick="showDeleteSectionModal(this)">
+            <i class="fa fa-trash" style="font-size: 14px;"></i>
+        </a>
+        <a class="btn btn-warning" id="addNewField" onclick="showAddNewFieldModal(this,1)" style="padding: 10px 10px;font-size: 11px;">Add New Field</a>
+    </span>
+    <div class="card" style="width:100%">
+        <div id="sectionAcc" class="card-header" data-toggle="collapse" role="button" data-target="#accordion10" aria-expanded="false" aria-controls="accordion10">
+            <span class="lead collapse-title" style="width:100%">
+                <span id="sectionName">Basic Personal Information</span>
+                <span id="sectionRequirement" class="" style="display: block;font-size: 10px;">
+                    Requirement
+                </span>
+            </span>
+        </div>
+        <div id="sectionAccChild" role="tabpanel" data-parent="#accordionWrapa10" aria-labelledby="heading11" class="collapse">
+            <div class="card-body">
+                <div id="fieldsOfSection" class="row">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Fields-->
+<!--Text Field-->
+<div class="form-group col-md-6" style="display:none;" id="textField">
+    <label class="form-label" for="" style="width:100%">
+        <span id="FieldName"></span>
+        <span class="pull-right" style="float:right;">
+            <a id="editField" onclick="showUpdateFieldModal(this)"><i class="fas fa-pencil-alt text-inverse"></i></a>
+            <a id="deleteField" style="cursor:pointer" onclick="DeleteField(this)"><i class="fa fa-trash text-danger"></i></a>
+        </span>
+    </label>
+    <input type="text" id="fieldValue" class="form-control" />
+</div>
+<!--Text Field-->
+<!--Number Field-->
+<div class="form-group col-md-6" style="display:none;" id="numberField">
+    <label class="form-label" for="" style="width:100%">
+        <span id="FieldName"></span>
+        <span class="pull-right" style="float:right;">
+            <a id="editField" onclick="showUpdateFieldModal(this)"><i class="fas fa-pencil-alt text-inverse"></i></a>
+            <a id="deleteField" style="cursor:pointer" onclick="DeleteField(this)"><i class="fa fa-trash text-danger"></i></a>
+        </span>
+    </label>
+    <input type="number" id="fieldValue" class="form-control number_field" />
+</div>
+<!--Number Field-->
+<!--Date Field-->
+<div class="form-group col-md-6" style="display:none;" id="dateField">
+    <label class="form-label" for="" style="width:100%">
+        <span id="FieldName"></span>
+        <span class="pull-right" style="float:right;">
+            <a id="editField" onclick="showUpdateFieldModal(this)"><i class="fas fa-pencil-alt text-inverse"></i></a>
+            <a id="deleteField" style="cursor:pointer" onclick="DeleteField(this)"><i class="fa fa-trash text-danger"></i></a>
+        </span>
+    </label>
+    <input type="date" id="fieldValue" class="form-control" />
+</div>
+<!--Date Field-->
+<!--MASK Field-->
+<div class="form-group col-md-6" style="display:none;" id="maskField">
+    <label class="form-label" for="" style="width:100%">
+        <span id="FieldName"></span>
+        <span class="pull-right" style="float:right;">
+            <a id="editField" onclick="showUpdateFieldModal(this)"><i class="fas fa-pencil-alt text-inverse"></i></a>
+            <a id="deleteField" style="cursor:pointer" onclick="DeleteField(this)"><i class="fa fa-trash text-danger"></i></a>
+        </span>
+    </label>
+    <input type="text" id="fieldValue" class="form-control ssn" />
+</div>
+<!--MASK Field-->
+<!--Dollar Field-->
+<div class="form-group col-md-6" style="display:none;" id="dollarField">
+    <label class="form-label" for="" style="width:100%">
+        <span id="FieldName"></span>
+        <span class="pull-right" style="float:right;">
+            <a id="editField" onclick="showUpdateFieldModal(this)"><i class="fas fa-pencil-alt text-inverse"></i></a>
+            <a id="deleteField" style="cursor:pointer" onclick="DeleteField(this)"><i class="fa fa-trash text-danger"></i></a>
+        </span>
+    </label>
+    <div class="input-group mb-2">
+        <span class="input-group-text" id="basic-addon1">$</span>
+        <input type="text" id="fieldValue" class="form-control">
+    </div>
+</div>
+<!--Dollar Field-->
+<!--TextArea Field-->
+<div class="form-group col-md-6" style="display:none;" id="textareaField">
+    <label class="form-label" for="" style="width:100%">
+        <span id="FieldName"></span>
+        <span class="pull-right" style="float:right;">
+            <a id="editField" onclick="showUpdateFieldModal(this)"><i class="fas fa-pencil-alt text-inverse"></i></a>
+            <a id="deleteField" style="cursor:pointer" onclick="DeleteField(this)"><i class="fa fa-trash text-danger"></i></a>
+        </span>
+    </label>
+    <textarea rows="2" class="form-control" id="fieldValue"></textarea>
+</div>
+<!--TextArea Field-->
+<!--passwordField Field-->
+<div class="form-group col-md-6" style="display:none;" id="passwordField">
+    <label class="form-label" for="" style="width:100%">
+        <span id="FieldName"></span>
+        <span class="pull-right" style="float:right;">
+            <a id="editField" onclick="showUpdateFieldModal(this)"><i class="fas fa-pencil-alt text-inverse"></i></a>
+            <a id="deleteField" style="cursor:pointer" onclick="DeleteField(this)"><i class="fa fa-trash text-danger"></i></a>
+        </span>
+    </label>
+    <div class="input-group input-group-merge form-password-toggle mb-2">
+        <input type="password" id="fieldValue" class="form-control" placeholder="Your Password" autocomplete="new-password">
+        <span class="input-group-text cursor-pointer"><i class="fas fa-eye"></i></span>
+    </div>
+</div>
+<!--passwordField Field-->
+<!--selectField Field-->
+<div class="form-group col-md-6" style="display:none;" id="selectField">
+    <label class="form-label" for="" style="width:100%">
+        <span id="FieldName"></span>
+        <span class="pull-right" style="float:right;">
+            <a id="editField" onclick="showUpdateFieldModal(this)"><i class="fas fa-pencil-alt text-inverse"></i></a>
+            <a id="deleteField" style="cursor:pointer" onclick="DeleteField(this)"><i class="fa fa-trash text-danger"></i></a>
+            <a id="settingField" onclick="showSettingFieldModal(this)"><i class="fas fa-cogs text-inverse"></i></a>
+        </span>
+    </label>
+    <select class="form-control" id="fieldValue">
+    </select>
+</div>
+<!--selectField Field-->
+<!--Checkbox-->
+<div class="form-group col-md-6" style="display:none;" id="checkboxField">
+    <label class="form-label" for="" style="width:100%;">
+        <span id="FieldName"></span>
+        <span class="pull-right" style="float:right;">
+            <a id="editField" onclick="showUpdateFieldModal(this)"><i class="fas fa-pencil-alt text-inverse"></i></a>
+            <a id="deleteField" style="cursor:pointer" onclick="DeleteField(this)"><i class="fa fa-trash text-danger"></i></a>
+            <a id="settingField" style="cursor:pointer" onclick="showSettingFieldModal(this)">
+                <i class="fa fa-cogs text-warning"></i>
+            </a>
+        </span>
+    </label>
+    <div id="fieldValue">
+
+    </div>
+</div>
+<!--Checkbox-->
+<!--Radio-->
+<div class="form-group col-md-6" style="display:none;" id="radioField">
+    <label class="form-label" for="" style="width:100%;">
+        <span id="FieldName"></span>
+        <span class="pull-right" style="float:right;">
+            <a id="editField" onclick="showUpdateFieldModal(this)"><i class="fas fa-pencil-alt text-inverse"></i></a>
+            <a id="deleteField" style="cursor:pointer" onclick="DeleteField(this)"><i class="fa fa-trash text-danger"></i></a>
+            <a id="settingField" style="cursor:pointer" onclick="showSettingFieldModal(this)">
+                <i class="fa fa-cogs text-warning"></i>
+            </a>
+        </span>
+    </label>
+    <div id="fieldValue">
+
+    </div>
+</div>
+<!--Radio-->
+<!--Group Field-->
+<div class="col-md-12" id="GroupField" style="padding: 24px; display: none;">
+    <span class="pull-right" style="float:right;">
+        <a id="editField" class="btn btn-success" style="cursor: pointer; padding: 10px 10px; font-size: 11px;" onclick="showUpdateFieldModal(this)"><i class="fas fa-pencil-alt"></i></a>
+        <a id="deleteField" class="btn btn-danger" style="cursor: pointer; padding: 10px 10px; font-size: 11px;" onclick="DeleteField(this)"><i class="fa fa-trash"></i></a>
+        <a id="settingField" class="btn btn-warning" style="cursor: pointer; padding: 10px 10px; font-size: 11px;" onclick="showAddNewFieldModal(this,2)">
+            New Field
+        </a>
+    </span>
+    <div class="card" style="width:100%">
+        <div id="GroupAcc" class="card-header" data-toggle="collapse" role="button" data-target="#accordion10" aria-expanded="false" aria-controls="accordion10">
+            <span class="lead collapse-title" style="width:100%">
+                <span id="FieldName">Basic Personal Information</span>
+                <span id="GFieldRequirement" class="" style="display: block;font-size: 10px;">
+                    Requirement
+                </span>
+            </span>
+        </div>
+        <div id="GroupAccChild" role="tabpanel" data-parent="#accordionWrapa10" aria-labelledby="heading11" class="collapse">
+            <div class="card-body">
+                <div id="fieldValue" class="row">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Group Field-->
+@* Clone Section *@
+
+<script>
+    function showAddNewFieldModal() {
+        $('#addNewFieldModal').modal("show");
+    }
+    function ChangeSelectType() {
+        var select_field_type = $('#select_field_type').val();
+        if (select_field_type == 2) {
+            $('.modal-body .number_field').show();
+            $('.modal-body .select_field').hide();
+        }
+        else if (select_field_type == 4) {
+            $('.modal-body .select_field').show();
+            $('.modal-body .modal-body .number_field').hide();
+        }
+        else {
+            $('.modal-body .number_field').hide();
+            $('.modal-body .select_field').hide();
+        }
+    }
+    function showEditModal() {
+        $('#addNewModal').modal("show");
+    }
+</script>
+
+<script>
+    $(function () {
+        $('#interview').addClass('active');
+        AppendForms();
+        setTimeout(function () {
+            new Cleave($('.ssn'), { blocks: [3, 3, 3], uppercase: !0 });
+        }, 2000);
+        $('.form-password-toggle .input-group-text').on('click', function (e) {
+            e.preventDefault();
+            var a = $(this);
+            var n = $(a).closest('.form-password-toggle');
+            var o = $(a).closest('.form-password-toggle').find('input');
+            "password" === o.attr("type") ? (o.attr("type", "text"), n.find("i").addClass('fa-eye-slash').removeClass('fa-eye')) : "text" === o.attr("type") && (o.attr("type", "password"), n.find("i").addClass('fa-eye').removeClass('fa-eye-slash'));
+        })
+    })
+    function AppendForms() {
+        $('#sectionAppend').html("");
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Action("AppendForms", "ConfigureInterview",new {Id = ViewBag.Id})',
+            data: null,
+            async: true,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data);
+                if (data.length > 0) {
+                    data.forEach(function (item) {
+                        var clone = $('#SectionClone').clone();
+                        clone.find('#editSection').attr('data-edit', item.id);
+
+                        var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '"><input type="hidden" id="r-' + item.id + '" value="' + item.isRequired +'">';
+                        clone.find('#editSection').attr('data-edit', item.id);
+                        clone.find('#editSection').append(values);
+                        clone.find('#deleteSection').attr('data-delete', item.id);
+                        clone.find('#addNewField').attr('data-addField', item.id);
+                        clone.find('#sectionName').html(item.name);
+                        clone.find('#sectionRequirement').html(item.isRequired);
+                        clone.find('#sectionAcc').attr('data-target', '#accordian-' + item.id);
+                        clone.find('#sectionAcc').attr('id', 'accordianWrap-' + item.id);
+                        clone.find('#sectionAccChild').attr('id', 'accordian-' + item.id);
+                        clone.find('#sectionAccChild').attr('data-parent', '#accordianWrap-' + item.id);
+
+                        if (item.sectionFields.length > 0) {
+                            var fields = GetFields(item.sectionFields);
+                            clone.find('#fieldsOfSection').html(fields);
+                        }
+                        clone.show();
+                        clone.attr('id', "");
+                        $('#sectionAppend').append(clone);
+                    })
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    }
+    function GetFields(fields) {
+        var result = "";
+        fields.forEach(function (item) {
+            if (item.fieldType == 0) {
+                var clone = $('#textField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#editField').attr('data-editfield', item.id);
+                clone.first().find('#editField').append(values);
+                clone.first().find('#deleteField').attr('data-deleteField', item.id);
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            else if (item.fieldType == 1) {
+                var clone = $('#numberField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#editField').attr('data-editfield', item.id);
+                clone.first().find('#editField').append(values);
+                clone.first().find('#deleteField').attr('data-deleteField', item.id);
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            else if (item.fieldType == 2) {
+                var clone = $('#textareaField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#editField').attr('data-editfield', item.id);
+                clone.first().find('#editField').append(values);
+                clone.first().find('#deleteField').attr('data-deleteField', item.id);
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            else if (item.fieldType == 3) {
+                var clone = $('#selectField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#editField').attr('data-editfield', item.id);
+                clone.first().find('#editField').append(values);
+                clone.first().find('#deleteField').attr('data-deleteField', item.id);
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                clone.first().find('#settingField').attr('data-settingFieldId', item.id);
+                clone.first().find('#settingField').attr('data-settingFieldName', item.name);
+                var options = GetFormsFieldOptions(item.formFieldsOptions, 3, item.id);
+                clone.first().find('#fieldValue').html(options);
+            }
+            else if (item.fieldType == 4) {
+                var clone = $('#checkboxField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#editField').attr('data-editfield', item.id);
+                clone.first().find('#editField').append(values);
+                clone.first().find('#deleteField').attr('data-deleteField', item.id);
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                clone.first().find('#settingField').attr('data-settingFieldId', item.id);
+                clone.first().find('#settingField').attr('data-settingFieldName', item.name);
+                var options = GetFormsFieldOptions(item.formFieldsOptions, 4, item.id);
+                clone.first().find('#fieldValue').html(options);
+            }
+            else if (item.fieldType == 5) {
+                var clone = $('#radioField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#editField').attr('data-editfield', item.id);
+                clone.first().find('#editField').append(values);
+                clone.first().find('#deleteField').attr('data-deleteField', item.id);
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                clone.first().find('#settingField').attr('data-settingFieldId', item.id);
+                clone.first().find('#settingField').attr('data-settingFieldName', item.name);
+                var options = GetFormsFieldOptions(item.formFieldsOptions, 5, item.id);
+                clone.first().find('#fieldValue').html(options);
+            }
+            else if (item.fieldType == 6) {
+                var clone = $('#passwordField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#editField').attr('data-editfield', item.id);
+                clone.first().find('#editField').append(values);
+                clone.first().find('#deleteField').attr('data-deleteField', item.id);
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            else if (item.fieldType == 7) {
+                var clone = $('#GroupField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#editField').attr('data-editfield', item.id);
+                clone.first().find('#editField').append(values);
+                clone.first().find('#deleteField').attr('data-deleteField', item.id);
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                clone.first().find('#GFieldRequirement').html("<span>Group Field</span>");
+                clone.first().find('#settingField').attr('data-addField', item.id)
+                var options = GetFields(item.groupFields);
+                clone.first().find('#fieldValue').html(options);
+
+                var nameTrim = item.name.replace(/\s/g, '') + "-";
+                clone.first().find('#GroupAcc').attr('data-target', '#accordian-' + nameTrim+  item.id);
+                clone.first().find('#GroupAcc').attr('id', 'accordianWrap-' + nameTrim + item.id);
+                clone.first().find('#GroupAccChild').attr('data-parent', '#accordianWrap-' + nameTrim + item.id);
+                clone.first().find('#GroupAccChild').attr('id', 'accordian-' + nameTrim + item.id);
+                ;
+            }
+            else if (item.fieldType == 8) {
+                var clone = $('#GroupField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#editField').attr('data-editfield', item.id);
+                clone.first().find('#editField').append(values);
+                clone.first().find('#deleteField').attr('data-deleteField', item.id);
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+                clone.first().find('#GFieldRequirement').html("<span>Multiple Section Field</span>");
+                clone.first().find('#settingField').attr('data-addField', item.id);
+                var options = GetFields(item.groupFields);
+                clone.first().find('#fieldValue').html(options);
+
+                var nameTrim = item.name.replace(/\s/g, '') + "-";
+                clone.first().find('#GroupAcc').attr('data-target', '#accordian-' + nameTrim + item.id);
+                clone.first().find('#GroupAcc').attr('id', 'accordianWrap-' + nameTrim + item.id);
+                clone.first().find('#GroupAccChild').attr('data-parent', '#accordianWrap-' + nameTrim + item.id);
+                clone.first().find('#GroupAccChild').attr('id', 'accordian-' + nameTrim + item.id);
+
+            }
+            else if (item.fieldType == 9) {
+                var clone = $('#dateField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#editField').attr('data-editfield', item.id);
+                clone.first().find('#editField').append(values);
+                clone.first().find('#deleteField').attr('data-deleteField', item.id);
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            else if (item.fieldType == 10) {
+                var clone = $('#maskField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#editField').attr('data-editfield', item.id);
+                clone.first().find('#editField').append(values);
+                clone.first().find('#deleteField').attr('data-deleteField', item.id);
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            else if (item.fieldType == 11) {
+                var clone = $('#dollarField').clone();
+                if (item.isRequired == true) {
+                    var span = "<span class='col-red'>*</span>";
+                    clone.first().find('#FieldName').html(item.name + " " + span);
+                }
+                else {
+                    clone.first().find('#FieldName').html(item.name);
+                }
+                var values = '<input type="hidden" id="n-' + item.id + '" value="' + item.name + '">' +
+                    '<input type="hidden" id="r-' + item.id + '" value="' + item.isRequired + '">' +
+                    '<input type="hidden" id="p-' + item.id + '" value="' + item.placeholder + '">' +
+                    '<input type="hidden" id="h-' + item.id + '" value="' + item.helperText + '">' +
+                    '<input type="hidden" id="im-' + item.id + '" value="' + item.isMultiple + '">' +
+                    '<input type="hidden" id="max-' + item.id + '" value="' + item.max + '">' +
+                    '<input type="hidden" id="min-' + item.id + '" value="' + item.min + '">';
+                clone.first().find('#editField').attr('data-editfield', item.id);
+                clone.first().find('#editField').append(values);
+                clone.first().find('#deleteField').attr('data-deleteField', item.id);
+                clone.first().find('#fieldValue').attr('placeholder', item.placeholder);
+            }
+            clone.show();
+            clone.attr('id', '');
+
+            result = result + clone[0].outerHTML;
+        })
+        return result;
+    }
+    function GetFormsFieldOptions(options,num,id) {
+        var result = "";
+        if (num == 3) {
+            options.forEach(function (item) {
+                var option = "<option value='" + item.value + "'>" + item.text + "</option>";
+                result += option;
+            })
+        }
+        else if (num == 4) {
+            options.forEach(function (item) {
+                var option = `<div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="i-${id}" class="custom-control-input" id="${item.id}" required="">
+                                <label class="custom-control-label" for="${item.id}"> ${item.text} </label>
+                            </div>`;
+                result += option;
+            })
+        }
+        else if (num == 5) {
+            var counaa = 0;
+            options.forEach(function (item) {
+                counaa++;
+                if (counaa == 1) {
+                    var option = `<div class="custom-control custom-checkbox">
+                                <input type="radio" checked name="i-${id}" class="custom-control-input" id="${item.id}" required="">
+                                <label class="custom-control-label" for="${item.id}"> ${item.text} </label>
+                            </div>`;
+                }
+                else {
+                    var option = `<div class="custom-control custom-checkbox">
+                                <input type="radio" name="i-${id}" class="custom-control-input" id="${item.id}" required="">
+                                <label class="custom-control-label" for="${item.id}"> ${item.text} </label>
+                            </div>`;
+                }
+                result += option;
+            })
+        }
+        return result;
+    }
+    async function showSettingFieldModal(element) {
+        $('.addOption').show();
+        $('.updateOption').hide();
+        var s = $(element).attr('data-settingFieldId');
+        if (s == undefined) {
+            s = element;
+            $('#Parentfeildid').attr('data-optionId', element);
+        }
+        else {
+            $('#Parentfeildid').attr('data-optionId', s);
+        }
+
+        var Fieldname = $(element).attr('data-settingFieldName');
+        $('#optionFieldTitle').html(Fieldname);
+        $('#label2').val("");
+        $('#helpText2').val("");
+        var response = await getResponseFromUrl("Get", "@Url.Action("GetFieldValues", "ConfigureInterview")?Id=" + s, null);
+        $('#table-o').DataTable().destroy;
+        $('#feildOptionTable').html('');
+        if (response.length > 0) {
+            response.forEach(function (item) {
+                var values = '<input type="hidden" id="optionn-' + item.id + '" value="' + item.text + '">' +
+                    '<input type="hidden" id="optionh-' + item.id + '" value="' + item.helpText + '">';
+                var row = `<tr class="">
+                                <td class="">${item.id}</td>
+                                <td>${item.text}</td>
+                                <td style="text-align:center;">
+                                    ${values}
+                                    <a data-optionid="${item.id}" onclick="showEditOptionModal(this)" style="color: #fff;padding:9px 9px;background-color: #01db6d !important;border-color: #01db6d !important;" class="btn btn-primary badge-shadow"><i class="fas fa-edit"></i></a>
+                                    <a data-optionid="${item.id}" onclick="showDeleteOptionModal(this)" style="color: #fff;padding:9px 9px;"  class="btn btn-danger badge-shadow"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>`;
+                $('#feildOptionTable').append(row);
+                $('#table-o').dataTable();
+            })
+        }
+        else {
+            $('#table-o').dataTable();
+        }
+        $('#settingModal').modal("show");
+    }
+    async function AddNewOptionInField() {
+        var s = $('#Parentfeildid').attr('data-optionId');
+        var helpText = $('#helpText2').val();
+        var name = $('#label2').val();
+        if (!name.replace(/\s/g, '').length) {
+            sweetMessage("Warning!", "Please Enter text", "warning");
+            return false;
+        }
+        var formData = new FormData();
+        formData.append('FieldId', s);
+        formData.append('Text', name);
+        formData.append('HelpText', helpText);
+        formData.append('FormType', 1);
+        $('#Parentfeildid').addClass('btn-progress');
+        var response = await getResponseFromUrl("POST", "@Url.Action("AddOptionField", "ConfigureInterview")", formData);
+        if (response.code == 200) {
+            var result = response.result;
+            console.log(result);
+            $('#Parentfeildid').removeClass('btn-progress');
+            showSettingFieldModal(s);
+            TimerSweet("Success!", "Option saved successfully", "success", 1000);
+        }
+        else {
+            TimerSweet("Error!", response.shortMessage, "error", 2000);
+        }
+    }
+    async function showEditOptionModal(element) {
+        var s = $(element).attr('data-optionid');
+        var name = $('#optionn-' + s).val();
+        var help = $('#optionh-' + s).val();
+        $('#label2').val(name);
+        $('#helpText2').val(help==null?help:"");
+        $('.addOption').hide();
+        $('.updateOption').show();
+        $('#Optionfeildid').attr('data-optionupdate', s);
+    }
+    async function UpdateOptionInField(element) {
+        var s = $(element).attr('data-optionupdate');
+        var helpText = $('#helpText2').val();
+        var name = $('#label2').val();
+        if (!name.replace(/\s/g, '').length) {
+            sweetMessage("Warning!", "Please Enter text", "warning");
+            return false;
+        }
+        var formData = new FormData();
+        formData.append('OptionId', s);
+        formData.append('Text', name);
+        formData.append('HelpText', helpText);
+        formData.append('FormType', 2);
+        $('#Optionfeildid').addClass('btn-progress');
+        var response = await getResponseFromUrl("POST", "@Url.Action("AddOptionField", "ConfigureInterview")", formData);
+        if (response.code == 200) {
+            var result = response.result;
+            console.log(result);
+            $('#Optionfeildid').removeClass('btn-progress');
+            var f = $('#Parentfeildid').attr('data-optionId');
+            showSettingFieldModal(f);
+            TimerSweet("Success!", "Option saved successfully", "success", 1000);
+        }
+        else {
+            TimerSweet("Error!", response.shortMessage, "error", 2000);
+        }
+    }
+    async function showDeleteOptionModal(element) {
+        var s = $(element).attr('data-optionid');
+        Swal.fire({
+            title: 'Are you sure you want to delete?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm!',
+            showLoaderOnConfirm: true,
+            preConfirm: (ref) => {
+                return new Promise(async function (resolve, reject) {
+                    var response = await getResponseFromUrl("Get", "@Url.Action("DeleteOptionField", "ConfigureInterview")?Id=" + s, null);
+                    if (response.code == 200) {
+                        var result = response.result;
+                        console.log(result);
+                        var f = $('#Parentfeildid').attr('data-optionId');
+                        showSettingFieldModal(f);
+                        TimerSweet("Success!", "Option deleted successfully", "success", 1000);
+                    }
+                    else {
+                        TimerSweet("Error!", response.shortMessage, "error", 2000);
+                    }
+                })
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+            }
+        })
+
+
+    }
+    function ClearOptionModal() {
+        $('.addOption').show();
+        $('.updateOption').hide();
+        $('#label2').val("");
+        $('#helpText2').val("");
+    }
+</script>
+<script>
+    function showAddNewSectionModal() {
+        $('#addSectionTitle').html("Add Section");
+        $('#add_section').show();
+        $('#edit_section').hide();
+        $('#addNewSectionModal').modal("show");
+    }
+    async function AddSection() {
+        var name = $('#Name').val();
+        var isrequired = document.getElementById('section_is_required').checked;
+        var formData = new FormData();
+        formData.append('name', name);
+        formData.append('isrequired', isrequired);
+        var Id = '@ViewBag.Id';
+        Id = parseInt(Id);
+        formData.append('Id', Id);
+        formData.append('Type', 1);
+        $('#add_section').addClass('btn-progress');
+        var response = await getResponseFromUrl("POST", "@Url.Action("AddSection", "ConfigureInterview")", formData);
+        console.log(response);
+        if (response.code == 200) {
+            var result = response.result;
+            console.log(result);
+            AppendForms();
+            $('#add_section').removeClass('btn-progress');
+            $('#addNewSectionModal').modal("hide");
+            TimerSweet("Success!", "Section saved successfully", "success", 2000);
+        }
+        else {
+            $('#addNewSectionModal').modal("hide");
+            TimerSweet("Error!", response.shortMessage, "error", 2000);
+        }
+    }
+
+    function showEditSectionModal(element) {
+        var s = $(element).attr('data-edit');
+        var name = $('#n-' + s).val();
+        var required = $('#r-' + s).val();
+        $('#add_section').hide();
+        $('#edit_section').show();
+        $('#updateSectionId').val(s);
+        $('#addSectionTitle').html("Update Section");
+        $('#addNewSectionModal').modal("show");
+        $('#Name').val(name);
+        if (required == "Required") {
+            document.getElementById('section_is_required').checked = true;
+        }
+        else {
+            document.getElementById('section_is_required').checked = false;
+        }
+    }
+    async function UpdateSection() {
+        var name = $('#Name').val();
+        var isrequired = document.getElementById('section_is_required').checked;
+        var formData = new FormData();
+        var sectionId = $('#updateSectionId').val();
+        formData.append('name', name);
+        formData.append('isrequired', isrequired);
+        formData.append('Id', sectionId);
+        $('#add_section').addClass('btn-progress');
+        formData.append('Type', 2);
+        var response = await getResponseFromUrl("POST", "@Url.Action("AddSection", "ConfigureInterview")", formData);
+        console.log(response);
+        if (response.code == 200) {
+            var result = response.result;
+            console.log(result);
+            AppendForms();
+            $('#add_section').removeClass('btn-progress');
+            $('#addNewSectionModal').modal("hide");
+            TimerSweet("Success!", "Section saved successfully", "success", 2000);
+        }
+        else {
+            $('#addNewSectionModal').modal("hide");
+            TimerSweet("Error!", response.shortMessage, "error", 2000);
+        }
+    }
+
+    async function showDeleteSectionModal(element) {
+        var s = $(element).attr('data-delete');
+        Swal.fire({
+            title: 'Are you sure you want to delete?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm!',
+            showLoaderOnConfirm: true,
+            preConfirm: (ref) => {
+                return new Promise(async function (resolve,reject) {
+                    var response = await getResponseFromUrl("Get", "@Url.Action("DeleteSection", "ConfigureInterview")?Id=" + s, null);
+                    console.log(response);
+                    if (response.code == 200) {
+                        var result = response.result;
+                        console.log(result);
+                        AppendForms();
+                        TimerSweet("Success!", "Section deleted successfully", "success", 2000);
+                    }
+                    else {
+                        TimerSweet("Error!", response.shortMessage, "error", 2000);
+                    }
+                })
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+            }
+        })
+    }
+</script>
+<script>
+    function showAddNewFieldModal(element,type) {
+        var s = $(element).attr('data-addField');
+        $('.updateFieldSection').show();
+        $('#add_field_btn').show();
+        $('#update_field_btn').hide();
+        $('#sectionId').val(s);
+        $('#maximum').val("");
+        $('#minimum').val("");
+        $('#placeholder').val("");
+        $('#label').val("");
+        $('#helperText').val("");
+        $('#FieldType').val(type);
+        $('#addNewFieldModal').modal("show");
+    }
+    async function AddField() {
+        var maximum = $('#maximum').val();
+        var minimum = $('#minimum').val();
+        var select_field_type = $('#select_field_type').val();
+        var placeholder = $('#placeholder').val();
+        var label = $('#label').val();
+        var helperText = $('#helperText').val();
+        var isrequired = document.getElementById('is_required').checked;
+        var is_multiple = document.getElementById('is_multiple').checked;
+        var formData = new FormData();
+        formData.append('label', label);
+        formData.append('placeholder', placeholder);
+        formData.append('maximum', maximum);
+        formData.append('minimum', minimum);
+        formData.append('is_multiple', is_multiple);
+        formData.append('isrequired', isrequired);
+        formData.append('helperText', helperText);
+        select_field_type = select_field_type - 1;
+        formData.append('select_field_type', select_field_type);
+        var id = $('#sectionId').val();
+        id = parseInt(id);
+        formData.append('SectionId', id);
+        formData.append('Type', 1);
+        formData.append('IsChild', $('#FieldType').val());
+        $('#add_field_btn').addClass('btn-progress');
+        var response = await getResponseFromUrl("POST", "@Url.Action("AddField", "ConfigureInterview")", formData);
+        console.log(response);
+        if (response.code == 200) {
+            var result = response.result;
+            console.log(result);
+            AppendForms();
+            $('#add_field_btn').removeClass('btn-progress');
+            $('#addNewFieldModal').modal("hide");
+            TimerSweet("Success!", "Field saved successfully", "success", 2000);
+        }
+        else {
+            $('#addNewFieldModal').modal("hide");
+            TimerSweet("Error!", response.shortMessage, "error", 2000);
+        }
+    }
+
+    function showUpdateFieldModal(element) {
+        var s = $(element).attr('data-editfield');
+        var name = $('#n-' + s).val();
+        var required = $('#r-' + s).val();
+        var multiple = $('#im-' + s).val();
+        var helperText = $('#h-' + s).val();
+        var placeholder = $('#p-' + s).val();
+        var minimum = $('#min-' + s).val();
+        var maximum = $('#max-' + s).val();
+        if (minimum == null || minimum == undefined || minimum == "null") {
+            $('#maximum').val("");
+            $('#minimum').val("");
+            $('.modal-body .number_field').hide();
+        }
+        else {
+            $('#maximum').val(minimum);
+            $('#minimum').val(maximum);
+            $('.modal-body .number_field').show();
+        }
+        $('#placeholder').val(placeholder != "null" ? placeholder:"");
+        $('#label').val(name != "null" ? name : "");
+        $('#helperText').val(helperText != "null" ? helperText : "");
+
+        if (multiple == "true") {
+            document.getElementById('is_multiple').checked = true;
+        }
+        else {
+            document.getElementById('is_multiple').checked = false;
+        }
+        if (required == "true") {
+            document.getElementById('is_required').checked = true;
+        }
+        else {
+            document.getElementById('is_required').checked = false;
+        }
+
+        $('.updateFieldSection').hide();
+        $('#add_field_btn').hide();
+        $('#update_field_btn').show();
+        $('#addNewFieldModal').modal("show");
+        $('#FieldId').val(s);
+    }
+    async function UpdateField() {
+        var is_multiple = $('#is_multiple').val();
+        var maximum = $('#maximum').val();
+        var minimum = $('#minimum').val();
+        var placeholder = $('#placeholder').val();
+        var label = $('#label').val();
+        var helperText = $('#helperText').val();
+        var id = $('#FieldId').val();
+        var isrequired = document.getElementById('is_required').checked;
+        var is_multiple = document.getElementById('is_multiple').checked;
+        var formData = new FormData();
+        formData.append('label', label);
+        formData.append('placeholder', placeholder);
+        formData.append('maximum', maximum);
+        formData.append('minimum', minimum);
+        formData.append('is_multiple', is_multiple);
+        formData.append('isrequired', isrequired);
+        formData.append('helperText', helperText);
+        formData.append('FieldId', id);
+        formData.append('Type', 2);
+        $('#update_field_btn').addClass('btn-progress');
+        var response = await getResponseFromUrl("POST", "@Url.Action("AddField", "ConfigureInterview")", formData);
+        console.log(response);
+        if (response.code == 200) {
+            var result = response.result;
+            console.log(result);
+            $('#update_field_btn').removeClass('btn-progress');
+            $('#addNewFieldModal').modal("hide");
+            AppendForms();
+            TimerSweet("Success!", "Field saved successfully", "success", 2000);
+        }
+        else {
+            $('#addNewFieldModal').modal("hide");
+            TimerSweet("Error!", response.shortMessage, "error", 2000);
+        }
+    }
+
+    async function DeleteField(element) {
+        var s = $(element).attr('data-deleteField');
+        Swal.fire({
+            title: 'Are you sure you want to delete?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm!',
+            showLoaderOnConfirm: true,
+            preConfirm: (ref) => {
+                return new Promise(async function (resolve,reject) {
+                    var response = await getResponseFromUrl("Get", "@Url.Action("DeleteField", "ConfigureInterview")?Id=" + s, null);
+                    console.log(response);
+                    if (response.code == 200) {
+                        var result = response.result;
+                        console.log(result);
+                        AppendForms();
+                        TimerSweet("Success!", "Field deleted successfully", "success", 2000);
+                    }
+                    else {
+                        TimerSweet("Error!", response.shortMessage, "error", 2000);
+                    }
+                })
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+            }
+        })
+    }
+</script>
+<!--Ajax-->
+<script>
+    var getResponseFromUrl = function (requestType, requestUrl, requestData) {
+        var response;
+        return $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            async: true,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                response = data;
+                console.log(data);
+                return response;
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+    }
+</script>

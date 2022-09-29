@@ -38,7 +38,7 @@ namespace moongroup.Controllers
             _tempDataProvider = tempDataProvider;
         }
 
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
             return View();
         }
@@ -81,12 +81,26 @@ namespace moongroup.Controllers
         }
 
 
-        [Route("/Invite/{companyId}")]
-        public IActionResult Register(string companyId)
+        //[Route("/Invite/{companyId}")]
+        //public IActionResult Register(string companyId)
+        //{
+        //    ViewBag.companyId = companyId;
+        //    var get = admin.ShowApplicationsForCompany(companyId);
+        //    if(get.Code == 200)
+        //    {
+        //        List<ApplicaitionsVms> s = (List<ApplicaitionsVms>)get.Result;
+        //        ViewBag.Applications = new SelectList(s.ToList(), "Id", "Name");
+        //        return View();
+        //    }
+        //    return View("Error");
+        //}
+
+        [Route("/Home/Register")]
+        public IActionResult Register()
         {
-            ViewBag.companyId = companyId;
-            var get = admin.ShowApplicationsForCompany(companyId);
-            if(get.Code == 200)
+            //ViewBag.companyId = companyId;
+            var get = admin.ShowApplicationsForCompany("");
+            if (get.Code == 200)
             {
                 List<ApplicaitionsVms> s = (List<ApplicaitionsVms>)get.Result;
                 ViewBag.Applications = new SelectList(s.ToList(), "Id", "Name");
@@ -95,10 +109,9 @@ namespace moongroup.Controllers
             return View("Error");
         }
 
-
         [HttpPost]
         [AllowAnonymous]
-        [Route("/Invite/{companyId}")]
+        [Route("/Home/Register")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterUser user, string returnUrl)
         {
@@ -116,7 +129,7 @@ namespace moongroup.Controllers
                     ModelState.AddModelError("", response.ShortMessage);
                 }
             }
-            var message  = string.Join(" | ", ModelState.Values
+            var message = string.Join(" | ", ModelState.Values
                                    .SelectMany(v => v.Errors)
                                    .Select(e => e.ErrorMessage));
             ViewBag.Applications = new SelectList(admin.ShowApplications().ToList(), "Id", "Name");
@@ -125,6 +138,36 @@ namespace moongroup.Controllers
             return View(user);
 
         }
+
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[Route("/Invite/{companyId}")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Register(RegisterUser user, string returnUrl)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var response = await admin.SignUpUser(user);
+        //        var response2 = await admin.Logout();
+        //        if (response.Code == 200)
+        //        {
+        //            return RedirectToAction("Login", "Home");
+        //        }
+        //        else
+        //        {
+        //            ViewBag.Applications = new SelectList(admin.ShowApplications().ToList(), "Id", "Name");
+        //            ModelState.AddModelError("", response.ShortMessage);
+        //        }
+        //    }
+        //    var message  = string.Join(" | ", ModelState.Values
+        //                           .SelectMany(v => v.Errors)
+        //                           .Select(e => e.ErrorMessage));
+        //    ViewBag.Applications = new SelectList(admin.ShowApplications().ToList(), "Id", "Name");
+        //    ViewBag.companyId = user.companyId;
+        //    ModelState.AddModelError("", message);
+        //    return View(user);
+
+        //}
 
         public IActionResult ForgotPassword(string returnUrl)
         {

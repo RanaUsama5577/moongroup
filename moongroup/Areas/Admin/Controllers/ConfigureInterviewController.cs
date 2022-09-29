@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace moongroup.Areas.SuperAdmin.Controllers
+namespace moongroup.Areas.Admin.Controllers
 {
-    [Area("SuperAdmin")]
-    [Authorize(Roles = "SuperAdmin")]
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ConfigureInterviewController : Controller
     {
         private readonly IAdminService admin;
@@ -25,19 +25,6 @@ namespace moongroup.Areas.SuperAdmin.Controllers
             var list = admin.ShowApplications();
             return View(list);
         }
-
-        public IActionResult CreateApps(string name)
-        {
-            var s = admin.CreateApplications(name);
-            return Json(s);
-        }
-
-        public IActionResult DeleteApplication(int Id)
-        {
-            var s = admin.DeleteApplication(Id);
-            return Json(s);
-        }
-
 
         public IActionResult CreateForms(int Id)
         {

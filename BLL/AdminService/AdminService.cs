@@ -85,7 +85,7 @@ namespace BLL.AdminService
                     Status = EntityStatus.Active,
                     Type = UserType.User,
                     ProfileImageUrl = imageUrl,
-                    CompanyId = company.Id,
+                    //CompanyId = company.Id,
                     CreatedAt  =currentTime,
                     UpdatedAt = currentTime,
                 };
@@ -181,7 +181,7 @@ namespace BLL.AdminService
         {
             try
             {
-                var users = db.Users.Where(p => p.Type == UserType.User && p.CompanyId == Id).OrderByDescending(p => p.CreatedAt).AsEnumerable().Select(n => new UsersProfileDtos
+                var users = db.Users.Where(p => p.Type == UserType.User /*&& p.CompanyId == Id*/).OrderByDescending(p => p.CreatedAt).AsEnumerable().Select(n => new UsersProfileDtos
                 {
                     CreatedAt = n.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
                     Email = n.Email,
@@ -205,20 +205,20 @@ namespace BLL.AdminService
         {
             ApplicationUser newUser = new ApplicationUser
             {
-                Email = "admin@dedramoon.com",
-                UserName = "admin@dedramoon.com",
+                Email = "admin@demo.com",
+                UserName = "admin@demo.com",
                 RegisteredAt = currentTime,
-                FullName = "Dedra Admin",
+                FullName = "Admin",
                 ExternalType = LoginProvider.WithEmail,
                 Status = EntityStatus.Active,
                 EmailConfirmed = true,
                 Type = UserType.Admin,
-                ProfileImageUrl = "/mon.jpg",
+                ProfileImageUrl = "/default-user-icon-4.jpg",
             };
             var result = await userManager.CreateAsync(newUser, "1q2w3e4r");
             if (result.Succeeded)
             {
-                if(!await roleManager.RoleExistsAsync("Admin"))
+                if(await roleManager.RoleExistsAsync("Admin"))
                 {
                     await userManager.AddToRoleAsync(newUser, "Admin");
                     return JsonResponse2(200,"success",null);
@@ -229,12 +229,21 @@ namespace BLL.AdminService
                     if (identityResult.Succeeded)
                     {
                         await userManager.AddToRoleAsync(newUser, "Admin");
+                        return JsonResponse2(200, "success", null);
                     }
                     return JsonResponse2(400, "role doesn't exist", null);
                 }
             }
             else
             {
+                var user = db.Users.Where(p => p.UserName == "admin@demo.com").FirstOrDefault();
+                if (user != null)
+                {
+                    user.Type = UserType.Admin;
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return JsonResponse2(200, "type changed", null);
+                }
                 return JsonResponse2(400, "error", result);
             }
         }
@@ -252,7 +261,7 @@ namespace BLL.AdminService
         {
             AdminDashboard a = new AdminDashboard
             {
-                TotalUsers = db.Users.Where(p => p.Status == EntityStatus.Active && p.Type == UserType.User && p.CompanyId == Id).Count(),
+                TotalUsers = db.Users.Where(p => p.Status == EntityStatus.Active && p.Type == UserType.User /*&& p.CompanyId == Id*/).Count(),
                 CanceledApps = db.UserProjects.Where(p=>p.Status == ApplicationStatus.Canceled).Count(),
                 CompletedApps = db.UserProjects.Where(p => p.Status == ApplicationStatus.Completed).Count(),
                 InprogressApps = db.UserProjects.Where(p => p.Status == ApplicationStatus.InProgress).Count(),
@@ -276,13 +285,13 @@ namespace BLL.AdminService
             if (Id != null)
             {
                 var LoginUser = db.Users.Find(Id);
-                var company = db.Users.Find(LoginUser.CompanyId);
+                //var company = db.Users.Find(LoginUser.CompanyId);
                 ProfileDtos profileDtos = new ProfileDtos
                 {
                     FullName = LoginUser.FullName,
                     Email = LoginUser.Email,
                     ProfileImageUrl = LoginUser.ProfileImageUrl,
-                    companyImage = company.ProfileImageUrl,
+                    companyImage = "/images.jpg",
                 };
                 return profileDtos;
             }
@@ -538,7 +547,7 @@ namespace BLL.AdminService
             }
         }
 
-        public ResponseDto CreateApplications()
+        public ResponseDto CreateApplications(string name)
         {
             try
             {
@@ -546,7 +555,7 @@ namespace BLL.AdminService
                 {
                     CreatedAt = currentTime,
                     Status = EntityStatus.Active,
-                    Name = "TMG Client Application",
+                    Name = name,
                     UpdatedAt = currentTime,
                 };
                 db.Applications.Add(applicaiton);
@@ -615,12 +624,21 @@ namespace BLL.AdminService
         {
             try
             {
-                var user = db.Users.Where(p => p.UserName == Id).FirstOrDefault();
-                if(user == null)
-                {
-                    return JsonResponse2(400, "company not found",null);
-                }
-                var apps = db.ClientApplications.Where(p => p.ApplicationObject.Status == EntityStatus.Active && p.UserId == user.Id).Select(p=>p.ApplicationObject).Select(n => new ApplicaitionsVms
+                //var user = db.Users.Where(p => p.UserName == Id).FirstOrDefault();
+                //if(user == null)
+                //{
+                //    return JsonResponse2(400, "company not found",null);
+                //}
+                //var apps = db.ClientApplications.Where(p => p.ApplicationObject.Status == EntityStatus.Active /*&& p.UserId == user.Id*/).Select(p=>p.ApplicationObject).Select(n => new ApplicaitionsVms
+                //{
+                //    CreatedAt = n.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                //    UpdatedAt = n.UpdatedAt != null ? n.UpdatedAt.Value.ToString("dd-MMM-yyyy hh:mm:ss tt") : null,
+                //    Id = n.Id,
+                //    Name = n.Name,
+                //    Types = db.ApplicationSettings.Where(p => p.ApplicationId == n.Id).Select(p => p.Name).ToList(),
+                //});
+
+                var apps = db.Applications.Where(p => p.Status == EntityStatus.Active /*&& p.UserId == user.Id*/).Select(n => new ApplicaitionsVms
                 {
                     CreatedAt = n.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
                     UpdatedAt = n.UpdatedAt != null ? n.UpdatedAt.Value.ToString("dd-MMM-yyyy hh:mm:ss tt") : null,
@@ -988,11 +1006,11 @@ namespace BLL.AdminService
         public List<ProjectsVms> UserProjects(string Id)
         {
             var user = db.Users.Find(Id);
-            var company = db.Users.Find(user.CompanyId);
-            if(company == null)
-            {
-                throw new ValidationException("Company Not Found");
-            }
+            //var company = db.Users.Find(user.CompanyId);
+            //if(company == null)
+            //{
+            //    throw new ValidationException("Company Not Found");
+            //}
             var projects = db.UserProjects.Where(p => p.UserId == Id).Select(n=> new ProjectsVms { 
                 ApplicaitonName = n.ApplicationObject.Name,
                 Year = n.Year,
@@ -1006,12 +1024,12 @@ namespace BLL.AdminService
                     Status = p.Status,
                     ProjectSettingId = p.Id,
                 }).ToList(),
-                Email = company.Email,
-                Image = company.ProfileImageUrl,
-                PersonName = company.FullName,
-                Phone = company.PhoneNumber,
-                UserName = company.UserName,
-                CompanyName = company.CompanyName,
+                //Email = company.Email,
+                //Image = company.ProfileImageUrl,
+                //PersonName = company.FullName,
+                //Phone = company.PhoneNumber,
+                //UserName = company.UserName,
+                //CompanyName = company.CompanyName,
             }).ToList();
             return projects;
         }
@@ -1401,11 +1419,11 @@ namespace BLL.AdminService
             }
             var companyClients = db.Users.Where(p => p.CompanyId == company.Id).Select(p=>p.Id).ToList();
             
-            var projects = db.UserProjects.Where(p => companyClients.Contains(p.UserId)).Select(n => new ProjectsVms
+            var projects = db.UserProjects/*.Where(p => companyClients.Contains(p.UserId))*/.Select(n => new ProjectsVms
             {
                 CustomerEmail = n.UserObject.Email,
                 CustomerName = n.UserObject.FirstName + " " + n.UserObject.LastName,
-                CustomerProfileImageUrl = n.UserObject.ProfileImageUrl == ""? "/mon.jpg": n.UserObject.ProfileImageUrl,
+                CustomerProfileImageUrl = n.UserObject.ProfileImageUrl == ""? "/images.jpg": n.UserObject.ProfileImageUrl,
                 CustomerUsername = n.UserObject.UserName,
                 ApplicaitonName = n.ApplicationObject.Name,
                 Year = n.Year,
@@ -1730,6 +1748,28 @@ namespace BLL.AdminService
                 }
             }
             return sectionFieldsVms;
+        }
+
+        public ResponseDto DeleteApplication(int Id)
+        {
+            try
+            {
+                var application = db.Applications.Find(Id);
+                if (application != null)
+                {
+                    db.Applications.Remove(application);
+                    db.SaveChanges();
+                    return JsonResponse2(200, "success", null);
+                }
+                else
+                {
+                    return JsonResponse2(400, "application not found", null);
+                }
+            }
+            catch (Exception ex)
+            {
+                return JsonResponse2(400, "error", ex.Message);
+            }
         }
     }
 }

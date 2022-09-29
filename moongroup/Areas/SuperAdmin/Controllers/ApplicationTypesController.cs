@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace moongroup.Areas.SuperAdmin.Controllers
 {
@@ -24,10 +25,16 @@ namespace moongroup.Areas.SuperAdmin.Controllers
             return View();
         }
 
-        //public IActionResult CreateApps()
-        //{
-        //    var s = admin.CreateApplications();
-        //    return Json(s);
-        //}
+        public IActionResult CreateApps(string name)
+        {
+            var s = admin.CreateApplications(name);
+            return Json(s);
+        }
+
+        public IActionResult DeleteApplication(int Id)
+        {
+            var s = admin.DeleteApplication(Id);
+            return Json(s);
+        }
     }
 }

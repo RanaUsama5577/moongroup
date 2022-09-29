@@ -23,7 +23,8 @@ namespace BLL.AdminService
         List<ProjectsVms> GetUserProjects(string Id);
         ResponseDto AddProject(AddNewProjectVms modal);
         Task<ResponseDto> CreateAdmin();
-        ResponseDto CreateApplications();
+        ResponseDto CreateApplications(string name);
+        ResponseDto DeleteApplication(int Id);
         List<ApplicaitionsVms> ShowApplications();
         ResponseDto ShowApplicationsForCompany(string Id);
         List<ClientFormsSectionsVms> GetProjectSettingForm(int Id);
